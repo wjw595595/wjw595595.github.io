@@ -1,0 +1,21 @@
+<attachment contenteditable="false" data-atts="%5B%5D" data-aid=".atts-750c4fc7-a503-4354-893b-0837f8cda535"></attachment><p>in begindate int,in enddate int</p><p>参数</p><p><span style="color: rgb(77, 77, 77);">(参数、 名字、 类型 )</span></p><p>参数：in ,out ,inout</p><p>类型：</p><p><br></p><p>调用存储过程：</p><p><br></p><p>SET @uid:=0;</p><p>SET @uname:='';</p><p>CALL test5(@uid,@uname);</p><p>SELECT @uid AS uidA, @uname AS myunameA</p><p><br></p><p><br></p><p><br></p><p><br></p><hr><p>调试方法</p><pre class="ql-syntax" spellcheck="false"> SET @a= NULL;
+SELECT @a; 
+select @result; -- 这句话是在控制台显示变量值
+</pre><p><br></p><p><br></p><pre class="ql-syntax" spellcheck="false">call p_next_id('t_factory',2,'0',@result); -- 上面的存储过程含有四个参数，所以这里调用的时候，也需要传递4个参数：输入参数填写值，输出参数用变量表示@result
+select @result; -- 这句话是在控制台显示变量值
+</pre><p><br></p><pre class="ql-syntax" spellcheck="false">CREATE PROCEDURE `p_next_id`(kind_name VARCHAR(30), i_length int,currentSeqNo VARCHAR(3),OUT o_result INT)
+BEGIN 
+     SET @a= NULL;
+     SET @b= NULL;
+     SELECT id INTO @a FROM t_seq WHERE number= currentSeqNo and length= i_length ;
+　　　SELECT @a;     
+     IF (@a is null ) THEN
+            select min(id) into @a FROM t_seq where length = i_length;
+            select number  INTO @b FROM t_seq WHERE id = @a;
+　　　　　　　select @b;
+     ELSE
+        select number  INTO @b FROM t_seq WHERE id = @a+1;        
+     END IF;        
+     SELECT @b INTO o_result;     
+END
+</pre><p><br></p><p><br></p>

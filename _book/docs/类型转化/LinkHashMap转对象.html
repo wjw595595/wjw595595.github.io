@@ -1,0 +1,37 @@
+<attachment contenteditable="false" data-atts="%5B%5D" data-aid=".atts-3dece4be-e4b9-4243-9b78-34ce885e0bbd"></attachment><p>两种思路：</p><p><br></p><p>1、继续将这个<code>LinkedHashMap进行序列化程JSON，然后再反序列化，但是这样效率就低了。</code></p><p>2、直接使用自带的convertValue方法将这个<code>LinkedHashMap以Object类型转成想要的实体。</code></p><p><br></p><p><br></p><pre class="ql-syntax" spellcheck="false">ZabbixResponse&lt;List&gt; response = RestTemplateUtil.doPostForList(ZabbixApiConstants.PROBLEM_GET, params);
+//第一种方法
+List&lt;LinkedHashMap&gt; list = response.getResult();
+ObjectMapper objectMapper = new ObjectMapper();
+try {
+    String json = objectMapper.writeValueAsString(list);
+    List&lt;Problem&gt; list1 = JSONArray.parseArray(json, Problem.class);
+    for (Iterator&lt;Problem&gt; i = list1.iterator(); i.hasNext();) {
+        Problem problem = i.next();
+        System.out.println("方法一打印"+problem.getEventId());
+    }
+} catch (JsonProcessingException e) {
+    e.printStackTrace();
+}
+//方法二
+List&lt;Problem&gt; list2 = new ArrayList();
+for (Iterator&lt;LinkedHashMap&gt; iterator = list.iterator(); iterator.hasNext(); ) {
+    LinkedHashMap linkedHashMap = iterator.next();
+    //json 序列化
+    String json = JSON.toJSONString(linkedHashMap);
+    Problem problem = JSONObject.parseObject(json, Problem.class);
+    list2.add(problem);
+}
+for(Problem problem :list2){
+    System.out.println("方法二打印"+problem.getEventId());
+}
+//方法三
+JSON.toJSONString(list);
+List&lt;Problem&gt; list3 = JSONArray.parseArray(JSON.toJSONString(list), Problem.class);
+for (Iterator&lt;Problem&gt; i = list3.iterator(); i.hasNext();) {
+    Problem problem = i.next();
+    System.out.println("方法三打印"+problem.getEventId());
+}
+</pre><p><br></p><p>对象转JSONObject   ：对象转jsonstring--转JSONObject</p><pre class="ql-syntax" spellcheck="false">ReprotHealthRequest request
+JSONObject requestJson = new JSONObject();
+requestJson = JSONObject.parseObject(JSONObject.toJSONString(request));
+</pre><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p>

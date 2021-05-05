@@ -1,0 +1,47 @@
+<attachment contenteditable="false" data-atts="%5B%5D" data-aid=".atts-4495f870-8982-4810-8ef7-9559ade034b5"></attachment><p><span style="color: rgb(34, 34, 34);">Spring Validator和Hibernate Validator这两套Validator来进行方便的参数校验！这两套Validator依赖包已经包含在前面所说的web依赖包里了，所以可以直接使用。</span></p><pre class="ql-syntax" spellcheck="false">&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+&lt;/dependency&gt;
+</pre><p>这个包中已经包含 hibernate-validator</p><p><br></p><p>validation-api-xxx.jar：JDK的接口；</p><p>hibernate-validator-xxx.jar是对上述接口的实现；</p><p><br></p><p><strong>hibernate validator constraint 注解</strong></p><hr><p><br></p><p>Bean Validation 中内置的 constraint&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p><p>@Null&nbsp;&nbsp;被注释的元素必须为 null&nbsp;&nbsp;&nbsp;</p><p>@NotNull&nbsp;&nbsp;被注释的元素必须不为 null&nbsp;&nbsp;&nbsp;</p><p>@AssertTrue&nbsp;&nbsp;&nbsp;被注释的元素必须为 true&nbsp;&nbsp;&nbsp;</p><p>@AssertFalse&nbsp;&nbsp;被注释的元素必须为 false&nbsp;&nbsp;&nbsp;</p><p>@Min(value)&nbsp;&nbsp;&nbsp;被注释的元素必须是一个数字，其值必须大于等于指定的最小值&nbsp;&nbsp;&nbsp;</p><p>@Max(value)&nbsp;&nbsp;&nbsp;被注释的元素必须是一个数字，其值必须小于等于指定的最大值&nbsp;&nbsp;&nbsp;</p><p>@DecimalMin(value)&nbsp;被注释的元素必须是一个数字，其值必须大于等于指定的最小值&nbsp;&nbsp;&nbsp;</p><p>@DecimalMax(value)&nbsp;被注释的元素必须是一个数字，其值必须小于等于指定的最大值&nbsp;&nbsp;&nbsp;</p><p>@Size(max=, min=)&nbsp;&nbsp;被注释的元素的大小必须在指定的范围内&nbsp;&nbsp;&nbsp;</p><p>@Digits (integer, fraction)&nbsp;&nbsp;&nbsp;被注释的元素必须是一个数字，其值必须在可接受的范围内&nbsp;&nbsp;&nbsp;</p><p>@Past&nbsp;&nbsp;被注释的元素必须是一个过去的日期&nbsp;&nbsp;&nbsp;</p><p>@Future&nbsp;&nbsp;&nbsp;被注释的元素必须是一个将来的日期&nbsp;&nbsp;&nbsp;</p><p>@Pattern(regex=,flag=)&nbsp;被注释的元素必须符合指定的正则表达式&nbsp;&nbsp;&nbsp;</p><p>&nbsp;&nbsp;&nbsp;</p><p>Hibernate Validator 附加的 constraint&nbsp;&nbsp;&nbsp;</p><p>@NotBlank(message =)&nbsp;&nbsp;验证字符串非null，且长度必须大于0&nbsp;&nbsp;&nbsp;</p><p>@Email&nbsp;被注释的元素必须是电子邮箱地址&nbsp;&nbsp;&nbsp;</p><p>@Length(min=,max=)&nbsp;被注释的字符串的大小必须在指定的范围内&nbsp;&nbsp;&nbsp;</p><p>@NotEmpty&nbsp;&nbsp;被注释的字符串的必须非空&nbsp;&nbsp;&nbsp;</p><p>@Range(min=,max=,message=)&nbsp;被注释的元素必须在合适的范围内</p><p><br></p><hr><p><strong>JSR303定义的校验类型</strong></p><p>空检查</p><p>@Null&nbsp;&nbsp;&nbsp;&nbsp;验证对象是否为null</p><p>@NotNull&nbsp;&nbsp;验证对象是否不为null, 无法查检长度为0的字符串</p><p>@NotBlank 检查约束字符串是不是Null还有被Trim的长度是否大于0,只对字符串,且会去掉前后空格.</p><p>@NotEmpty 检查约束元素是否为NULL或者是EMPTY.</p><p>&nbsp;</p><p>Booelan检查</p><p>@AssertTrue&nbsp;&nbsp;&nbsp;验证 Boolean 对象是否为 true&nbsp;&nbsp;</p><p>@AssertFalse&nbsp;&nbsp;验证 Boolean 对象是否为 false&nbsp;&nbsp;</p><p>&nbsp;</p><p>长度检查</p><p>@Size(min=, max=) 验证对象（Array,Collection,Map,String）长度是否在给定的范围之内&nbsp;&nbsp;</p><p>@Length(min=, max=) Validates that the annotated string is between min and max included.</p><p>&nbsp;</p><p>日期检查</p><p>@Past&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;验证 Date 和 Calendar 对象是否在当前时间之前&nbsp;&nbsp;</p><p>@Future&nbsp;&nbsp;&nbsp;验证 Date 和 Calendar 对象是否在当前时间之后&nbsp;&nbsp;</p><p>@Pattern&nbsp;&nbsp;验证 String 对象是否符合正则表达式的规则</p><p>&nbsp;</p><p>数值检查，建议使用在Stirng,Integer类型，不建议使用在int类型上，因为表单值为“”时无法转换为int，但可以转换为Stirng为"",Integer为null</p><p>@Min&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;验证 Number 和 String 对象是否大等于指定的值&nbsp;&nbsp;</p><p>@Max&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;验证 Number 和 String 对象是否小等于指定的值&nbsp;&nbsp;</p><p>@DecimalMax 被标注的值必须不大于约束中指定的最大值. 这个约束的参数是一个通过BigDecimal定义的最大值的字符串表示.小数存在精度</p><p>@DecimalMin 被标注的值必须不小于约束中指定的最小值. 这个约束的参数是一个通过BigDecimal定义的最小值的字符串表示.小数存在精度</p><p>@Digits&nbsp;&nbsp;&nbsp;验证 Number 和 String 的构成是否合法&nbsp;&nbsp;</p><p>@Digits(integer=,fraction=) 验证字符串是否是符合指定格式的数字，interger指定整数精度，fraction指定小数精度。</p><p>&nbsp;</p><p>@Range(min=, max=) 检查数字是否介于min和max之间.</p><p>@Range(min=10000,max=50000,message="range.bean.wage")</p><p>private BigDecimal wage;</p><p>&nbsp;</p><p>@Valid 递归的对关联对象进行校验, 如果关联对象是个集合或者数组,那么对其中的元素进行递归校验,如果是一个map,则对其中的值部分进行校验.(是否进行递归验证)</p><p>@CreditCardNumber信用卡验证</p><p>@Email&nbsp;验证是否是邮件地址，如果为null,不进行验证，算通过验证。</p><p>@ScriptAssert(lang= ,script=, alias=)</p><p>@URL(protocol=,host=, port=,regexp=, flags=)</p><p><br></p><hr><pre class="ql-syntax" spellcheck="false">使用在对象前加上  @Valid
+</pre><p><span style="color: rgb(51, 51, 51);">&nbsp;</span><span style="color: rgb(178, 34, 34);">enum &lt;类型名&gt; {&lt;枚举常量表&gt;};</span></p><pre class="ql-syntax" spellcheck="false">@Valid User user, BindingResult bindingResult
+</pre><p>去掉 BindingResult 就增加一个全局异常拦截</p><p><br></p><pre class="ql-syntax" spellcheck="false">增加一个全局异常 @RestControllerAdvice
+public class ExceptionControllerAdvice {
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public String MethodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e) {
+    	// 从异常对象中拿到ObjectError对象
+        ObjectError objectError = e.getBindingResult().getAllErrors().get(0);
+        // 然后提取错误提示信息进行返回
+        return objectError.getDefaultMessage();
+    }
+    
+}
+</pre><p><br></p><p><br></p><hr><p>参数校验思路：先封装，再校验</p><p><br></p><p>@Data</p><p>public class Pojo {</p><p>	</p><p>	@Valid</p><p>	private Pojo2 pojo;</p><p>}</p><p>复制代码</p><p><br></p><p><br></p><p><br></p><pre class="ql-syntax" spellcheck="false">
+public class BeanValidateUtil {
+
+    private static final Logger logger = LoggerFactory.getLogger(BeanValidateUtil.class);
+    
+    static Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+    
+    public static void validate(Object beanObj) {
+        // 验证bean错误结果集合，如果集合为空，表明bean校验通过.
+        Set&lt;ConstraintViolation&lt;Object&gt;&gt; violations = validator.validate(beanObj);
+        if (!CollectionUtils.isEmpty(violations)) {
+            String errorMsg = convertErrorMsg(violations);
+            logger.error("请求参数不合法,{}", errorMsg);
+            throw new BaseException("1001", errorMsg);
+        }
+    }
+
+    private static String convertErrorMsg(Set&lt;ConstraintViolation&lt;Object&gt;&gt; violations) {
+        // 错误信息
+        StringBuilder errorTips = new StringBuilder();
+        for (ConstraintViolation&lt;Object&gt; constraintViolation : violations) {
+            errorTips.append(constraintViolation.getMessage());
+            break;
+        }
+        String errorTip = errorTips.toString();
+        return errorTip;
+    }
+}
+</pre><p><br></p><p>使用：</p><p><br></p><p>BeanValidateUtil.validate(request);</p><p><br></p><p><br></p>

@@ -1,0 +1,122 @@
+<attachment contenteditable="false" data-atts="%5B%5D" data-aid=".atts-3a983998-d5c8-4218-8f4a-02d1af704c46"></attachment><pre class="ql-syntax" spellcheck="false">        &lt;!-- spring boot redis 缓存引入 --&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-data-redis&lt;/artifactId&gt;
+            &lt;version&gt;2.0.4.RELEASE&lt;/version&gt;
+        &lt;/dependency&gt;
+        &lt;!-- lettuce pool 缓存连接池 --&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.apache.commons&lt;/groupId&gt;
+            &lt;artifactId&gt;commons-pool2&lt;/artifactId&gt;
+            &lt;version&gt;2.5.0&lt;/version&gt;
+        &lt;/dependency&gt;
+</pre><p><br></p><p>配置文件：</p><p><br></p><p><br></p><hr><pre class="ql-syntax" spellcheck="false">package com.jec.mservices.config.redis;
+
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.CachingConfigurerSupport;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.cache.RedisCacheConfiguration;
+import org.springframework.data.redis.cache.RedisCacheManager;
+import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.RedisSerializationContext;
+import org.springframework.data.redis.serializer.RedisSerializer;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.cache.interceptor.KeyGenerator;
+
+import java.lang.reflect.Method;
+import java.time.Duration;
+/**
+ * @author: wjw
+ * @description:
+ * @param: redis配置
+ * @return:
+ * @version: 1.0
+ **/
+@Configuration
+@EnableCaching
+public class RedisConfig extends CachingConfigurerSupport {
+    private static final Logger log = LoggerFactory.getLogger(RedisConfig.class);
+
+    @Bean
+    public KeyGenerator methodKeyGenerator() {
+        return new KeyGenerator() {
+            @Override
+            public Object generate(Object target, Method method, Object... params) {
+                StringBuilder sb = new StringBuilder();
+                sb.append(target.getClass().getName());
+                sb.append(method.getName());
+                StringBuilder paramsSb = new StringBuilder();
+                for (Object obj : params) {
+                    paramsSb.append((String) obj);
+                }
+                return sb.toString();
+            }
+        };
+
+    }
+
+    /**
+     * 缓存管理器 使用Lettuce，和jedis有很大不同  spring cache的注解使用的序列化都从这来
+     * @param
+     * @return
+     */
+    @Bean
+    public CacheManager cacheManager(LettuceConnectionFactory factory) {
+        // 配置序列化（解决乱码的问题）,过期时间30分钟
+        RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
+                .entryTtl(Duration.ofMinutes(30))
+                .prefixKeysWith("monitorService:")
+                .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(keySerializer()))
+                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(valueSerializer()))
+                .disableCachingNullValues();
+
+        RedisCacheManager cacheManager = RedisCacheManager.RedisCacheManagerBuilder
+                .fromConnectionFactory(factory)
+                .cacheDefaults(config)
+                .transactionAware()
+                .build();
+        return cacheManager;
+    }
+    @Bean
+    public RedisTemplate&lt;String, Object&gt; redisTemplate(LettuceConnectionFactory factory) {
+        RedisTemplate&lt;String, Object&gt; redisTemplate = new RedisTemplate&lt;&gt;();
+        redisTemplate.setConnectionFactory(factory);
+        //以下代码为将RedisTemplate的Value序列化方式由JdkSerializationRedisSerializer更换为Jackson2JsonRedisSerializer
+        //此种序列化方式结果清晰、容易阅读、存储字节少、速度快，所以推荐更换
+        redisTemplate.setKeySerializer(keySerializer());
+        redisTemplate.setValueSerializer(valueSerializer());
+        redisTemplate.setHashKeySerializer(keySerializer());
+        redisTemplate.setHashValueSerializer(valueSerializer());
+        redisTemplate.afterPropertiesSet();
+        return redisTemplate;
+    }
+
+
+
+
+
+    private RedisSerializer&lt;String&gt; keySerializer() {
+        return new StringRedisSerializer();
+    }
+
+    private RedisSerializer&lt;Object&gt; valueSerializer() {
+        // 设置序列化
+        Jackson2JsonRedisSerializer&lt;Object&gt; jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer&lt;Object&gt;(
+                Object.class);
+        ObjectMapper om = new ObjectMapper();
+        om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+        om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
+        jackson2JsonRedisSerializer.setObjectMapper(om);
+        return jackson2JsonRedisSerializer;
+    }
+}
+</pre><p><br></p><hr><p><br></p><p><br></p><p><br></p>

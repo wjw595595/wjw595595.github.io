@@ -1,0 +1,263 @@
+<attachment contenteditable="false" data-atts="%5B%5D" data-aid=".atts-aa762719-c042-49e3-98bc-c41c43fdf830"></attachment><p class="ql-align-justify">RabbitMq有5种常用的消息模型</p><h3 class="ql-align-justify">1.1 基本消息模型</h3><p class="ql-align-justify">这是最简单的消息模型，如下图：</p><p class="ql-align-justify"><img src="https://img2020.cnblogs.com/blog/1944008/202003/1944008-20200308165428200-1100307615.png"></p><p class="ql-align-justify">生产者将消息发送到队列，消费者从队列中获取消息，队列是存储消息的缓冲区。</p><p class="ql-align-justify">再演示代码之前，我们先创建一个工程rabbitmq-demo，并编写一个工具类，用于提供与mq服务创建连接</p><pre class="ql-syntax ql-align-justify" spellcheck="false">public class ConnectionUtil {
+    /**
+     * 建立与RabbitMQ的连接
+     * @return
+     * @throws Exception
+     */
+    public static Connection getConnection() throws Exception {
+        //定义连接工厂
+        ConnectionFactory factory = new ConnectionFactory();
+        //设置服务地址
+        factory.setHost("192.168.18.130");
+        //端口
+        factory.setPort(5672);
+        //设置账号信息，用户名、密码、vhost
+        factory.setUsername("admin");
+        factory.setPassword("admin");
+        // 通过工程获取连接
+        Connection connection = factory.newConnection();
+        return connection;
+    }
+}
+</pre><h4 class="ql-align-justify">生产者发送消息</h4><p class="ql-align-justify">接下来是生产者发送消息，其过程包括：1.与mq服务建立连接，2.建立通道，3.声明队列（有相同队列则不创建，没有则创建），4.发送消息，代码如下：</p><pre class="ql-syntax ql-align-justify" spellcheck="false">public class Send {
+    private static final String QUEUE_NAME = "basic_queue";
+    public static void main(String[] args) throws Exception {
+        //消息发送端与mq服务创建连接
+        Connection connection = ConnectionUtil.getConnection();
+        //建立通道
+        Channel channel = connection.createChannel();
+        //声明队列
+        channel.queueDeclare(QUEUE_NAME, false, false, false, null);
+        String message = "hello world";
+        channel.basicPublish("", QUEUE_NAME, null, message.getBytes());
+        System.out.println("生产者已发送：" + message);
+        channel.close();
+        connection.close();
+    }
+}
+</pre><h4 class="ql-align-justify">消费者接受消息</h4><p class="ql-align-justify">消费者在接收消息的过程需要经历如下几个步骤： 1.与mqfuwu建立连接，2.建立通道，3.声明队列，4，接收消息，代码如下：</p><pre class="ql-syntax ql-align-justify" spellcheck="false">public class Consumer1 {
+    private static final String QUEUE_NAME = "basic_queue";
+    public static void main(String[] args) throws Exception {
+        //消息消费者与mq服务建立连接
+        Connection connection = ConnectionUtil.getConnection();
+        //建立通道
+        Channel channel = connection.createChannel();
+        channel.queueDeclare(QUEUE_NAME, false, false, false, null);
+        DefaultConsumer consumer = new DefaultConsumer(channel) {
+            // 获取消息，并且处理，这个方法类似事件监听，如果有消息的时候，会被自动调用
+            @Override
+            public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties,
+                                       byte[] body) throws IOException {
+                // body 即消息体
+                String msg = new String(body);
+                System.out.println("消费者1接收到消息：" + msg);
+            }
+        };
+        channel.basicConsume(QUEUE_NAME, true, consumer);
+    }
+}
+</pre><p class="ql-align-justify">消息的接收与消费使用都需要在一个匿名内部类DefaultConsumer中完成</p><p class="ql-align-justify">注意：队列需要提前声明，如果未声明就使用队列，则会报错。如果不清楚生产者和消费者谁先声明，为了保证不报错，生产者和消费者都声明队列，队列的创建会保证幂等性，也就是说生产者和消费者都声明同一个队列，则只会创建一个队列</p><h3 class="ql-align-justify">1.2 Work Queues工作队列模型</h3><p class="ql-align-justify">在基本消息模型中，一个生产者对应一个消费者，而实际生产过程中，往往消息生产会发送很多条消息，如果消费者只有一个的话效率就会很低，因此rabbitmq有另外一种消息模型，这种模型下，一个生产发送消息到队列，允许有多个消费者接收消息，但是一条消息只会被一个消费者获取。</p><p class="ql-align-justify"><img src="https://img2020.cnblogs.com/blog/1944008/202003/1944008-20200308165500153-1391346866.png"></p><h4 class="ql-align-justify">生产者发送消息</h4><p class="ql-align-justify">与基本消息模型基本一致，这里测试循环发布20条消息：</p><pre class="ql-syntax ql-align-justify" spellcheck="false">public class Send {
+    private static final String QUEUE_NAME = "work_queue";
+    public static void main(String[] args) throws Exception {
+        Connection connection = ConnectionUtil.getConnection();
+        Channel channel = connection.createChannel();
+        channel.queueDeclare(QUEUE_NAME, false, false, false, null);
+        // 循环发布任务
+        for (int i = 1; i &lt;= 20; i++) {
+            // 消息内容
+            String message = "task .. " + i;
+            channel.basicPublish("", QUEUE_NAME, null, message.getBytes());
+            System.out.println("生产者发送消息：" + message);
+            Thread.sleep(500);
+        }
+        channel.close();
+        connection.close();
+    }
+}
+</pre><h4 class="ql-align-justify">消费者1</h4><pre class="ql-syntax ql-align-justify" spellcheck="false">public class Consumer1 {
+    private static final String QUEUE_NAME = "work_queue";
+    public static void main(String[] args) throws Exception {
+        Connection connection = ConnectionUtil.getConnection();
+        Channel channel = connection.createChannel();
+        channel.queueDeclare(QUEUE_NAME, false, false, false, null);
+        DefaultConsumer consumer = new DefaultConsumer(channel) {
+            @Override
+            public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
+                String msg = new String(body);
+                System.out.println("消费者1接收到消息：" + msg);
+                try {
+                    Thread.sleep(50);//模拟消费耗时
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        channel.basicConsume(QUEUE_NAME, true, consumer);
+    }
+}
+</pre><h4 class="ql-align-justify">消费者2</h4><pre class="ql-syntax ql-align-justify" spellcheck="false">public class Consumer2 {
+    private static final String QUEUE_NAME = "work_queue";
+    public static void main(String[] args) throws Exception {
+        Connection connection = ConnectionUtil.getConnection();
+        Channel channel = connection.createChannel();
+        channel.queueDeclare(QUEUE_NAME, false, false, false, null);
+        DefaultConsumer consumer = new DefaultConsumer(channel) {
+            @Override
+            public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties,byte[] body) throws IOException {
+                String msg = new String(body);
+                System.out.println("消费者2接收到消息：" + msg);
+                try {
+                    Thread.sleep(50);//模拟消费耗时
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                channel.basicAck(envelope.getDeliveryTag(), false);
+            }
+        };
+        channel.basicConsume(QUEUE_NAME, true, consumer);
+    }
+}
+</pre><p class="ql-align-justify">此时有两个消费者监听同一个队列，当两个消费者都工作时，生成者发送消息，就会按照负载均衡算法分配给不同消费者，如下图：</p><p class="ql-align-justify"><img src="https://img2020.cnblogs.com/blog/1944008/202003/1944008-20200308165516887-265282382.png"></p><h3 class="ql-align-justify">1.3 订阅模型</h3><p class="ql-align-justify">在之前的模型中，一条消息只能被一个消费者获取，而在订阅模式中，可以实现一条消息被多个消费者获取。在这种模型下，消息传递过程中比之前多了一个exchange交换机，生产者不是直接发送消息到队列，而是先发送给交换机，经由交换机分配到不同的队列，而每个消费者都有自己的队列：</p><p class="ql-align-justify"><img src="https://img2020.cnblogs.com/blog/1944008/202003/1944008-20200308165532126-1077010904.png"></p><p class="ql-align-justify">解读：</p><p class="ql-align-justify">1、1个生产者，多个消费者</p><p class="ql-align-justify">2、每一个消费者都有自己的一个队列</p><p class="ql-align-justify">3、生产者没有将消息直接发送到队列，而是发送到了交换机</p><p class="ql-align-justify">4、每个队列都要绑定到交换机</p><p class="ql-align-justify">5、生产者发送的消息，经过交换机到达队列，实现一个消息被多个消费者获取的目的</p><p class="ql-align-justify">X（exchange）交换机的类型有以下几种：</p><pre class="ql-syntax ql-align-justify" spellcheck="false">Fanout：广播，交换机将消息发送到所有与之绑定的队列中去
+
+Direct：定向，交换机按照指定的Routing Key发送到匹配的队列中去
+
+Topics：通配符，与Direct大致相同，不同在于Routing Key可以根据通配符进行匹配
+</pre><p class="ql-align-justify">注意：在发布订阅模型中，生产者只负责发消息到交换机，至于消息该怎么发，以及发送到哪个队列，生产者都不负责。一般由消费者创建队列，并且绑定到交换机</p><h4 class="ql-align-justify">订阅模型之Fanout</h4><p class="ql-align-justify">在广播模式下，消息发送的流程如下：</p><ol><li class="ql-align-justify">可以有多个消费者，每个消费者都有自己的队列</li><li class="ql-align-justify">每个队列都要与exchange绑定</li><li class="ql-align-justify">生产者发送消息到exchange</li><li class="ql-align-justify">exchange将消息把消息发送到所有绑定的队列中去</li><li class="ql-align-justify">消费者从各自的队列中获取消息</li></ol><h5 class="ql-align-justify">生产者发送消息</h5><pre class="ql-syntax ql-align-justify" spellcheck="false">public class Send {
+    private static final String EXCHANGE_NAME = "fanout_exchange";
+    
+    public static void main(String[] args) throws Exception {
+        Connection connection = ConnectionUtil.getConnection();
+        Channel channel = connection.createChannel();
+        // 声明exchange，指定类型为fanout
+        channel.exchangeDeclare(EXCHANGE_NAME, BuiltinExchangeType.FANOUT);
+        String message = "hello world";
+        channel.basicPublish(EXCHANGE_NAME, "", null, message.getBytes());
+        System.out.println("生产者发送消息：" + message);
+        channel.close();
+        connection.close();
+    }
+}
+</pre><h5 class="ql-align-justify">消费者</h5><pre class="ql-syntax ql-align-justify" spellcheck="false">public class Consumer1 {
+    private static final String QUEUE_NAME = "fanout_queue_1";
+    private static final String EXCHANGE_NAME = "fanout_exchange";
+
+    public static void main(String[] args) throws Exception {
+        Connection connection = ConnectionUtil.getConnection();
+        Channel channel = connection.createChannel();
+        //消费者声明自己的队列
+        channel.queueDeclare(QUEUE_NAME, false, false, false, null);
+        // 声明exchange，指定类型为direct
+        channel.exchangeDeclare(EXCHANGE_NAME, BuiltinExchangeType.FANOUT);
+        //消费者将队列与交换机进行绑定
+        channel.queueBind(QUEUE_NAME, EXCHANGE_NAME, "");
+        channel.basicConsume(QUEUE_NAME, true, new DefaultConsumer(channel){
+            @Override
+            public void handleDelivery(String consumerTag,
+                                       Envelope envelope,
+                                       AMQP.BasicProperties properties,
+                                       byte[] body)
+                    throws IOException
+            {
+                String msg = new String(body);
+                System.out.println("消费者1获取到消息：" + msg);
+            }
+        });
+    }
+}
+</pre><p class="ql-align-justify">其他消费者只需修改QUEUE_NAME即可</p><p class="ql-align-justify">注意：exchange与队列一样都需要提前声明，如果未声明就使用交换机，则会报错。如果不清楚生产者和消费者谁先声明，为了保证不报错，生产者和消费者都声明交换机，同样的，交换机的创建也会保证幂等性。</p><h4 class="ql-align-justify">订阅模型之Direct</h4><p class="ql-align-justify">在fanout模型中，生产者发布消息，所有消费者都可以获取所有消息。在路由模式（Direct）中，可以实现不同的消息被不同的队列消费，在Direct模式下，交换机不再将消息发送给所有绑定的队列，而是根据Routing Key将消息发送到指定的队列，队列在与交换机绑定时会设定一个Routing Key，而生产者发送的消息时也需要携带一个Routing Key。</p><p class="ql-align-justify"><img src="https://img2020.cnblogs.com/blog/1944008/202003/1944008-20200308165604637-345033763.png"></p><p class="ql-align-justify">如图所示，消费者C1的队列与交换机绑定时设置的Routing Key是“error”， 而C2的队列与交换机绑定时设置的Routing Key包括三个：“info”，“error”，“warning”，假如生产者发送一条消息到交换机，并设置消息的Routing Key为“info”，那么交换机只会将消息发送给C2的队列。</p><h5 class="ql-align-justify">生产者发送消息</h5><pre class="ql-syntax ql-align-justify" spellcheck="false">public class Send {
+    private static final String EXCHANGE_NAME = "direct_exchange";
+
+    public static void main(String[] args) throws Exception {
+        Connection connection = ConnectionUtil.getConnection();
+        Channel channel = connection.createChannel();
+        // 声明exchange，指定类型为direct
+        channel.exchangeDeclare(EXCHANGE_NAME, BuiltinExchangeType.DIRECT);
+        String message = "新增一个订单";
+        //生产者发送消息时，设置消息的Routing Key:"insert"
+        channel.basicPublish(EXCHANGE_NAME, "insert", null, message.getBytes());
+        System.out.println("生产者发送消息：" + message);
+        channel.close();
+        connection.close();
+    }
+}
+</pre><h5 class="ql-align-justify">消费者1</h5><pre class="ql-syntax ql-align-justify" spellcheck="false">public class Consumer1 {
+    private static final String QUEUE_NAME = "direct_queue_1";
+    private static final String EXCHANGE_NAME = "direct_exchange";
+
+    public static void main(String[] args) throws Exception {
+        Connection connection = ConnectionUtil.getConnection();
+        Channel channel = connection.createChannel();
+        //消费者声明自己的队列
+        channel.queueDeclare(QUEUE_NAME, false, false, false, null);
+        //声明交换机
+        channel.exchangeDeclare(EXCHANGE_NAME, BuiltinExchangeType.DIRECT);
+        //消费者将队列与交换机进行绑定，并且设置Routing Key:"insert"
+        channel.queueBind(QUEUE_NAME, EXCHANGE_NAME, "insert");
+        channel.basicConsume(QUEUE_NAME, true, new DefaultConsumer(channel){
+            @Override
+            public void handleDelivery(String consumerTag,
+                                       Envelope envelope,
+                                       AMQP.BasicProperties properties,
+                                       byte[] body)
+                    throws IOException
+            {
+                String msg = new String(body);
+                System.out.println("消费者1获取到消息：" + msg);
+            }
+        });
+    }
+}
+</pre><p class="ql-align-justify">其他消费者需要修改队列名QUEUE_NAME和Routing Key，上述生成者发送的消息，消费者1是可以获取到的</p><h4 class="ql-align-justify">发布订阅之Topics</h4><p class="ql-align-justify">Topic类型的Exchange与Direct相比，都是可以根据RoutingKey把消息路由到不同的队列。只不过Topic类型Exchange可以让队列在绑定Routing key 的时候使用通配符</p><p class="ql-align-justify">Routingkey 一般都是有一个或多个单词组成，多个单词之间以”.”分割，例如： item.insert</p><p class="ql-align-justify">通配符规则：</p><pre class="ql-syntax ql-align-justify" spellcheck="false">     #：匹配一个或多个词
+
+     *：匹配不多不少恰好1个词
+</pre><p class="ql-align-justify">举例：</p><pre class="ql-syntax ql-align-justify" spellcheck="false">     audit.#：能够匹配audit.irs.corporate 或者 audit.irs
+
+     audit.*：只能匹配audit.irs
+</pre><p class="ql-align-justify">Topics生产者代码与Direct大致相同，只不过子声明交换机时，将类型设为BuiltinExchangeType.TOPIC(topic)，</p><p class="ql-align-justify">消费者代码也与Direct大致相同，也是在声明交换机时设置类型为topic，代码不再演示</p><h2 class="ql-align-justify">Spring AMQP</h2><p class="ql-align-justify">Spring AMQP是对AMQP的一种封装，目的是能够让我们更简便的使用消息队列，下面介绍一下Spring AMQP在Spring boot中的使用方法</p><h3 class="ql-align-justify">依赖和配置</h3><p class="ql-align-justify">添加AMQP的启动器：</p><pre class="ql-syntax ql-align-justify" spellcheck="false">&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-amqp&lt;/artifactId&gt;
+&lt;/dependency&gt;
+</pre><p class="ql-align-justify">在application.yml中添加RabbitMQ的地址：</p><pre class="ql-syntax ql-align-justify" spellcheck="false">spring:
+  rabbitmq:
+    host: 192.168.18.130
+    username: admin
+    password: admin
+</pre><h3 class="ql-align-justify">消费者</h3><p class="ql-align-justify">消费者需要定义一个类，类中定义监听队列的方法</p><pre class="ql-syntax ql-align-justify" spellcheck="false">@Component
+public class Listener {
+
+    @RabbitListener(
+            bindings = @QueueBinding(
+                    value = @Queue(value = "spring.test.queue", durable = "false"),
+                    exchange = @Exchange(value = "spring.test.exchange", type = ExchangeTypes.DIRECT),
+                    key = "insert"
+            )
+    )
+    public void listen(String msg){
+        System.out.println("消费者接受到消息：" + msg);
+    }
+}
+</pre><p class="ql-align-justify">注解：</p><p class="ql-align-justify">@Component：保证监听类被spring扫描到</p><p class="ql-align-justify">@RabbitListener：</p><p class="ql-align-justify"><img src="https://img2020.cnblogs.com/blog/1944008/202003/1944008-20200308165631907-431296934.png"></p><p class="ql-align-justify">@RabbitListener包含很多内容，在发布订阅模式中，我们可以使用其中的“QueueBinding[] bindings”，其中QueueBinding底层如下：</p><p class="ql-align-justify"><img src="https://img2020.cnblogs.com/blog/1944008/202003/1944008-20200308165638381-2015087094.png"></p><p class="ql-align-justify">其中Queue表示队列，Exchange表示交换机，key表示Routing Key</p><pre class="ql-syntax ql-align-justify" spellcheck="false">@RabbitListener(
+            bindings = @QueueBinding(
+                    value = @Queue(value = "spring.test.queue", durable = "false"),
+                    exchange = @Exchange(value = "spring.test.exchange", type = ExchangeTypes.DIRECT),
+                    key = "insert"
+            )
+    )
+</pre><p class="ql-align-justify">@Queue会创建队列</p><p class="ql-align-justify">@Exchange会创建交换机</p><p class="ql-align-justify">@QueueBinding会绑定队列和交换机</p><h3 class="ql-align-justify">生产者发送消息</h3><p class="ql-align-justify">可以通过注解引入AmqpTemplate：</p><pre class="ql-syntax ql-align-justify" spellcheck="false">@RunWith(SpringRunner.class)
+@SpringBootTest
+public class SpringAMQPTest {
+    @Resource
+    private AmqpTemplate template;
+
+    @Test
+    public void testSendMsg() throws InterruptedException {
+        String message = "hello spring";
+        template.convertAndSend("spring.test.exchange", "insert", message);
+        System.out.println("生产者发送消息：" + message);
+        Thread.sleep(10000);//等待10s，让测试方法延迟结束，防止消费者未来得及获取消息
+    }
+}
+</pre><h2 class="ql-align-justify">RabbitMQ如何防止消息丢失</h2><h3 class="ql-align-justify">1. 消息确认机制（ACK）</h3><p class="ql-align-justify">RabbitMQ有一个ACK机制，消费者在接收到消息后会向mq服务发送回执ACK，告知消息已被接收。这种ACK分为两种情况：</p><ul><li class="ql-align-justify">自动ACK：消息一旦被接收，消费者会自动发送ACK</li><li class="ql-align-justify">手动ACK：消息接收后，不会自动发送ACK，而是需要手动发送ACK</li></ul><p class="ql-align-justify">如果消费者没有发送ACK，则消息会一直保留在队列中，等待下次接收。但这里存在一个问题，就是一旦消费者发送了ACK，如果消费者后面宕机，则消息会丢失。因此自动ACK不能保证消费者在接收到消息之后能够正常完成业务功能，因此需要在消息被充分利用之后，手动ACK确认</p><p class="ql-align-justify">自动ACK，basicConsume方法中将autoAck参数设为true即可：</p><p class="ql-align-justify"><img src="https://img2020.cnblogs.com/blog/1944008/202003/1944008-20200308165657544-245262126.png"></p><p class="ql-align-justify">手动ack，在匿名内部类中，手动发送ACK：</p><p class="ql-align-justify"><img src="https://img2020.cnblogs.com/blog/1944008/202003/1944008-20200308165704771-1627876582.png"></p><p class="ql-align-justify">当然，如果设置了手动ack，但又不手动发送ACK确认，消息会一直停留在队列中，可能造成消息的重复获取</p><h3 class="ql-align-justify">2. 持久化</h3><p class="ql-align-justify">消息确认机制（ACK）能够保证消费者不丢失消息，但假如消费者在获取消息之前mq服务宕机，则消息也会丢失，因此要保证消息在服务端不丢失，则需要将消息进行持久化。队列、交换机、消息都要持久化。</p><h4 class="ql-align-justify">队列持久化</h4><p class="ql-align-justify"><img src="https://img2020.cnblogs.com/blog/1944008/202003/1944008-20200308165713111-1803543617.png"></p><h4 class="ql-align-justify">exchange持久化</h4><p class="ql-align-justify"><img src="https://img2020.cnblogs.com/blog/1944008/202003/1944008-20200308165724385-2052528448.png"></p><h4 class="ql-align-justify">消息持久化</h4><p class="ql-align-justify"><img src="https://img2020.cnblogs.com/blog/1944008/202003/1944008-20200308165734760-455868262.png"></p><h3 class="ql-align-justify">3. 生产者确认</h3><p class="ql-align-justify">生成者在发送消息过程中也可能出现错误或者网络延迟灯故障，导致消息未成功发送到交换机或者队列，或重复发送消息，为了解决这个问题，rabbitmq中有多个解决办法：</p><h4 class="ql-align-justify">事务：</h4><p class="ql-align-justify">用事务将消息发送代码包围起来：</p><p class="ql-align-justify"><img src="https://img2020.cnblogs.com/blog/1944008/202003/1944008-20200308165750256-1160714309.png"></p><h4 class="ql-align-justify">Confirm模式：</h4><p class="ql-align-justify">如下所示，在发送代码前执行channel.confirmSelect()，如果消息未正常发送，就会进入if代码块，可以进行重发也可以对失败消息进行记录</p><p class="ql-align-justify"><img src="https://img2020.cnblogs.com/blog/1944008/202003/1944008-20200308165805759-680046672.png"></p><h4 class="ql-align-justify">异步confirm方法：</h4><p class="ql-align-justify">顾名思义，就是生产者发送消息后不用等待服务端回馈发送状态，可以继续执行后面的代码，对于失败消息重发进行异步处理：</p><p class="ql-align-justify"><img src="https://img2020.cnblogs.com/blog/1944008/202003/1944008-20200308165812317-1677238022.png"></p><h4 class="ql-align-justify">Spring AMQP中添加配置：</h4><p class="ql-align-justify">生产者确认机制，确保消息正确发送，如果发送失败会有错误回执，从而触发重试</p><pre class="ql-syntax ql-align-justify" spellcheck="false">spring:
+  rabbitmq:
+    publisher-confirms: true
+</pre><p><br></p>

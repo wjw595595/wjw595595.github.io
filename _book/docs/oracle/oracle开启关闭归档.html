@@ -1,0 +1,98 @@
+<p>https://blog.csdn.net/weixin_43257494/article/details/87821033</p><h2>categories: 数据库</h2><h2>tags:</h2><h2>- Oracle</h2><h2>- RMAN</h2><h2>timezone: Asia/Shanghai</h2><h2>date: 2019-01-06</h2><h2>软件版本</h2><pre class="ql-syntax" spellcheck="false">Oracle 11g 11.2.0.4
+1
+</pre><h2>1.开启和关闭归档模式</h2><p>1.管理员登录</p><pre class="ql-syntax" spellcheck="false">sqlplus / as sysdba
+1
+</pre><p>2.查看是否开启归档模式</p><pre class="ql-syntax" spellcheck="false">SQL&gt; archive log list;
+Database log mode              No Archive Mode
+Automatic archival             Disabled
+Archive destination            USE_DB_RECOVERY_FILE_DEST
+Oldest online log sequence     2
+Current log sequence           4
+1
+2
+3
+4
+5
+6
+</pre><p>3.关闭数据库</p><pre class="ql-syntax" spellcheck="false">SQL&gt; shutdown immediate;
+Database closed.
+Database dismounted.
+ORACLE instance shut down.
+1
+2
+3
+4
+</pre><p>4.启动数据库到mount状态</p><pre class="ql-syntax" spellcheck="false">SQL&gt; startup mount;
+ORACLE instance started.
+
+Total System Global Area  759943168 bytes
+Fixed Size                  2257112 bytes
+Variable Size             499126056 bytes
+Database Buffers          255852544 bytes
+Redo Buffers                2707456 bytes
+Database mounted.
+1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre><p>5.启用归档模式并查看</p><pre class="ql-syntax" spellcheck="false">SQL&gt; alter database archivelog;
+
+Database altered.
+
+SQL&gt; archive log list;
+Database log mode              Archive Mode
+Automatic archival             Enabled
+Archive destination            USE_DB_RECOVERY_FILE_DEST
+Oldest online log sequence     2
+Next log sequence to archive   4
+Current log sequence           4
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre><p>6.启动数据库</p><pre class="ql-syntax" spellcheck="false">SQL&gt; alter database open;
+
+Database altered.
+1
+2
+3
+</pre><p>7.关闭归档模式</p><pre class="ql-syntax" spellcheck="false"># 关闭数据库
+SQL&gt; shutdown immediate;
+Database closed.
+Database dismounted.
+ORACLE instance shut down.
+
+# 启动数据库到mount状态
+SQL&gt; startup mount;
+ORACLE instance started.
+Total System Global Area  759943168 bytes
+Fixed Size                  2257112 bytes
+Variable Size             499126056 bytes
+Database Buffers          255852544 bytes
+Redo Buffers                2707456 bytes
+alter database noarchivelog;Database mounted.
+
+# 关闭归档模式
+SQL&gt; alter database noarchivelog;
+Database altered.
+
+# 查看状态
+SQL&gt; archive log list;
+Database log mode              No Archive Mode
+Automatic archival             Disabled
+Archive destination            USE_DB_RECOVERY_FILE_DEST
+Oldest online log sequence     2
+Current log sequence           4
+</pre><p><br></p><attachment contenteditable="false" data-atts="%5B%5D" data-aid=".atts-2a24884c-c5d6-469a-a9a5-65711817f981"></attachment><p><br></p>

@@ -1,0 +1,43 @@
+{
+   
+  "title": "David的笔记",
+  "description": "David的笔记,java开发的参考手册",
+  "author": "david wang",
+  "language": "zh-hans",
+  "gitbook": "3.2.3",
+  "fontState": {
+    "size": "2",
+    "family": "sans",
+    "theme": "night"
+  },
+  "links": {
+    "sidebar": {
+
+      "home": "https://wjw595595.github.io"
+    }
+  },
+  "theme-default": {
+		"showLevel": true
+	},
+  "plugins": [ 
+      "summary",
+    
+    "splitter",
+    
+    "-lunr", 
+	"-search", 
+	"search-pro",
+ 
+    "expandable-chapters",
+   
+      "theme-comscore"
+  ],
+  "pluginsConfig": {
+    "search-pro": {
+      "cutWordLib": "nodejieba",
+      "defineWord": [
+        "搜索"
+      ]
+    }
+  }
+}

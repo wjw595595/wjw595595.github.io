@@ -1,0 +1,12 @@
+## 下载镜像
+
+```cmd
+docker pull mysql:5.7.26
+#查看镜像
+docker images|grep mysql
+mkdir /usr/local/mysql
+cd /usr/local/mysql
+#运行
+docker run -p 3306:3306 --name mysql57 --restart=always -v $PWD/conf:/etc/mysql -v $PWD/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456 -d mysql:5.7
+```
+

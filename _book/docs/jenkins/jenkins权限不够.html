@@ -1,0 +1,25 @@
+<attachment contenteditable="false" data-atts="%5B%5D" data-aid=".atts-4ca0bd07-11a9-4ee7-be11-95a38c83e95a"></attachment><h3>1.查看<code>jenkins</code>默认用户</h3><pre class="ql-syntax" spellcheck="false">
+vi /etc/sysconfig/jenkins
+
+复制代码
+</pre><p>找到<code>JENKINS_USER</code>发现默认用户<code>jenkins</code>，</p><pre class="ql-syntax" spellcheck="false">
+# Unix user account that runs the Jenkins daemon
+
+# Be careful when you change this, as you need to update
+
+# permissions of $JENKINS_HOME and /var/log/jenkins.
+
+#
+
+JENKINS_USER="jenkins"
+
+复制代码
+</pre><p>修改为<code>JENKINS_USER="root"</code></p><h3>2.修改默认用户权限</h3><pre class="ql-syntax" spellcheck="false">
+chrow -R root:root /val/lib/jenkins
+
+chrow -R root:root /val/cache/jenkins
+
+chrow -R root:root /val/log/jenkins
+
+复制代码
+</pre><p>重新启动后就可以了</p><p><code>service jenkins restart</code></p><p>还可以给jenkins用户添加相应的权限</p><p><code>chown -R jenkins &lt;path&gt;</code></p><p><br></p>

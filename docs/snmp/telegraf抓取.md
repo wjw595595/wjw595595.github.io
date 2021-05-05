@@ -1,0 +1,1 @@
+https://github.com/influxdata/telegraf/tree/master/plugins/inputs/snmp_legacy

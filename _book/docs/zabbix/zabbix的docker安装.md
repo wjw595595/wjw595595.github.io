@@ -1,0 +1,1 @@
+docker pull zabbix/zabbix-server-mysql

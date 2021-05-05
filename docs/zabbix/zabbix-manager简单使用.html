@@ -1,0 +1,38 @@
+<attachment contenteditable="false" data-atts="%5B%5D" data-aid=".atts-800b82b2-5aee-4e19-859b-aef9fe456b7a"></attachment><p>https://blog.51cto.com/11555417/2318021?source=dra</p><p><br></p><p>&nbsp;<span style="color: rgb(36, 41, 46);">zabbix_manager 是 zabbix 终端管理工具，可以在 linux 终端实现管理 zabbix，基于api方式。</span></p><p><span style="color: rgb(36, 41, 46);">项目地址：</span><a href="https://github.com/meetbill/zabbix_manager/wiki/introduction" target="_blank" style="color: rgb(66, 133, 244);">https://github.com/meetbill/zabbix_manager/wiki/introduction</a></p><p>使用该工具 可以做到生成监控报表。详细的说明见项目wiki。</p><p><strong>一、安装</strong></p><p><span style="color: rgb(36, 41, 46);">&nbsp;git 下载</span></p><pre class="ql-syntax" spellcheck="false">#git clone https://github.com/BillWang139967/zabbix_manager.git
+#cd zabbix_manager
+#sh start.sh
+</pre><p>常见问题 git clone 失败</p><pre class="ql-syntax" spellcheck="false">[root@localhost ~]# git clone https://github.com/BillWang139967/zabbix_manager.git
+Initialized empty Git repository in /root/zabbix_manager/.git/
+error:  while accessing https://github.com/BillWang139967/Vim.git/info/refs
+fatal: HTTP request failed
+</pre><p>解决方法</p><pre class="ql-syntax" spellcheck="false">#git config --global http.sslVerify false
+</pre><p><strong>二 配置</strong></p><p>配置文件位置</p><ul><li>/etc/zabbix_tool/zabbix_config.ini（连接 zabbix server 服务配置）</li><li>/etc/zabbix_tool/zabbix_setting.ini（额外配置）</li></ul><p>配置文件：/etc/zabbix_tool/zabbix_config.ini</p><p>注意，配置时将配置配置在 [zabbixserver] 字段下</p><pre class="ql-syntax" spellcheck="false">[zabbixserver]---------------------- 默认连接（可通过 --profile 选择连接的 zabbix)
+server = 127.0.0.1------------------zabbix server IP
+port = 80---------------------------zabbix web 端口
+user = admin------------------------zabbix web 管理员账号
+password = zabbix-------------------zabbix web 管理员密码
+
+################################# 
+# zabbix_api 可以进行管理多台 zabbix server 只需要在配置文件中增加如下配置即可，加入要对 [bendi] 的机器进行管理，在命令行后跟 --profile bendi 即可
+#[bendi]
+#server = 192.168.199.128
+#port = 80
+#user = admin
+#password = zabbix
+#################################
+</pre><p><strong>额外配置</strong></p><p>搭建 zabbix server 时使用的<code style="background-color: rgba(27, 31, 35, 0.05); color: rgb(51, 51, 51);">lnmp</code>(即前端使用的 nginx 时则不需要进行以下操作)，前端使用的<code style="background-color: rgba(27, 31, 35, 0.05); color: rgb(51, 51, 51);">apache</code>时需要进行操作</p><p>配置文件：/etc/zabbix_tool/zabbix_setting.ini</p><p>修改如下</p><pre class="ql-syntax" spellcheck="false">apache=True
+</pre><p><strong><img src="https://s1.51cto.com/images/20181116/1542355552334824.png?x-oss-process=image/watermark,size_16,text_QDUxQ1RP5Y2a5a6i,color_FFFFFF,t_100,g_se,x_10,y_10,shadow_90,type_ZmFuZ3poZW5naGVpdGk=" alt="image.png"></strong></p><p><strong>测试</strong></p><pre class="ql-syntax" spellcheck="false">zabbix_api hostgroup_get --table
+</pre><p><img src="https://s1.51cto.com/images/20181116/1542355727644410.png?x-oss-process=image/watermark,size_16,text_QDUxQ1RP5Y2a5a6i,color_FFFFFF,t_100,g_se,x_10,y_10,shadow_90,type_ZmFuZ3poZW5naGVpdGk=" alt="image.png"></p><p><br></p><p><strong>三、使用</strong></p><p><strong>运行帮助</strong></p><p>直接执行 zabbix_api 输出帮助信息</p><pre class="ql-syntax" spellcheck="false">zabbix_api
+</pre><p>输出 zabbix_api 成员函数信息以及选项</p><p><strong><img src="https://s1.51cto.com/images/20181116/1542355925715989.png?x-oss-process=image/watermark,size_16,text_QDUxQ1RP5Y2a5a6i,color_FFFFFF,t_100,g_se,x_10,y_10,shadow_90,type_ZmFuZ3poZW5naGVpdGk=" alt="image.png"></strong></p><p><br></p><p><strong>Hostgroup管理</strong></p><p>table选型使得输出以列表输出，默认以text输出</p><pre class="ql-syntax" spellcheck="false">zabbix_api hostgroup_get --table
+</pre><p><br></p><p><strong>Host管理-主机列表</strong></p><pre class="ql-syntax" spellcheck="false">zabbix_api host_get --table
+</pre><p><img src="https://s1.51cto.com/images/20181116/1542356427927604.png?x-oss-process=image/watermark,size_16,text_QDUxQ1RP5Y2a5a6i,color_FFFFFF,t_100,g_se,x_10,y_10,shadow_90,type_ZmFuZ3poZW5naGVpdGk=" alt="image.png"></p><p><br></p><p><strong>获取机器列表</strong></p><p>使用方法</p><p><span style="color: rgb(36, 41, 46);">--hostgroupid 可以使用主机组名，也可以使用主机组ID</span></p><pre class="ql-syntax" spellcheck="false">#zabbix_api host_list  --hostgroupid "HONGLOU"  --table
+#zabbix_api host_list  --hostgroupid 17  --table
+</pre><p><img src="https://s1.51cto.com/images/20181116/1542356645295586.png?x-oss-process=image/watermark,size_16,text_QDUxQ1RP5Y2a5a6i,color_FFFFFF,t_100,g_se,x_10,y_10,shadow_90,type_ZmFuZ3poZW5naGVpdGk=" alt="image.png"></p><p><br></p><p><strong>item 查询</strong></p><p>item_get ,获取host的所有的item 列表</p><pre class="ql-syntax" spellcheck="false">zabbix_api&nbsp;item_get&nbsp;host_id
+eg:zabbix_api&nbsp;item_get&nbsp;10263
+</pre><p><img src="https://s1.51cto.com/images/20181116/1542356900925106.png?x-oss-process=image/watermark,size_16,text_QDUxQ1RP5Y2a5a6i,color_FFFFFF,t_100,g_se,x_10,y_10,shadow_90,type_ZmFuZ3poZW5naGVpdGk=" alt="image.png"></p><p>item_list，获取某台主机特定的application的item</p><pre class="ql-syntax" spellcheck="false">zabbix_api item_list 10263 "CPU"
+</pre><p><img src="https://s1.51cto.com/images/20181116/1542357074101827.png?x-oss-process=image/watermark,size_16,text_QDUxQ1RP5Y2a5a6i,color_FFFFFF,t_100,g_se,x_10,y_10,shadow_90,type_ZmFuZ3poZW5naGVpdGk=" alt="image.png"></p><p><br></p><p><strong>生成指定报表</strong></p><p>通过--hostgroupid ,--hostid选择特定主机</p><pre class="ql-syntax" spellcheck="false">zabbix_api --report "Memory utilization" "2018-11-01 00:00:00" "2018-12-01 00:00:00" --table --hostgroup 17 --xls /tmp/ceshi1.xls
+# --report 报表
+#--table 显示在终端
+#--hostgroup 指定主机组
+#--xls    保存xls格式表格
+</pre><p><img src="https://s1.51cto.com/images/20181116/1542357378738489.png?x-oss-process=image/watermark,size_16,text_QDUxQ1RP5Y2a5a6i,color_FFFFFF,t_100,g_se,x_10,y_10,shadow_90,type_ZmFuZ3poZW5naGVpdGk=" alt="image.png"></p><p>生成的报表</p><p><img src="https://s1.51cto.com/images/20181116/1542357418667504.png?x-oss-process=image/watermark,size_16,text_QDUxQ1RP5Y2a5a6i,color_FFFFFF,t_100,g_se,x_10,y_10,shadow_90,type_ZmFuZ3poZW5naGVpdGk=" alt="image.png"></p><p><br></p><p><strong>四、使用心得</strong></p><p>此工具可以方便对linux主机进行配置，报表生成，对网络设备的支持报表生成也可以，但是比较麻烦。</p><p>1、网络设备的监控模板都是不一样的，无法按照统一的监控项格式导出报表</p><p>2、生成报表不能获取多个监控项</p><p><br></p>

@@ -1,0 +1,28 @@
+<attachment contenteditable="false" data-atts="%5B%5D" data-aid=".atts-5a00dd42-09e4-4288-9c49-399cfc1f2f62"></attachment><p>分页实现：</p><p>List&lt;AccessAreaVo&gt; areaVo = vos.stream()</p><p>.skip(pageable.getPageSize() * (pageable.getPageNumber() - 1))</p><p>.limit(pageable.getPageSize()).collect(Collectors.toList());</p><p><br></p><p><br></p><p>String[] strings = Arrays.stream(objects).toArray(String[]::new);</p><p>要转换其他类型的数组：</p><p><br></p><p>String[] strings = Arrays.stream(obj).map(Object::toString).</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;toArray(String[]::new);</p><p><br></p><p><br></p><hr><p>分页</p><p><br></p><p><br></p><pre class="ql-syntax" spellcheck="false">/*  pageInfo.setPageSize(request.getPageSize());
+pageInfo.setPageNum(request.getPageNum());
+   List&lt;ProblemForAlarm&gt; tempList =
+    list.stream()
+        .skip(request.getPageSize() * (request.getPageNum() - 1))
+        .limit(request.getPageSize())
+        .collect(Collectors.toList());
+pageInfo.setSize(tempList.size());*/
+// 总页数=（总数-1）/每页数量+1----总页数=（总数+每页数量-1）/每页数量
+//      set @startRow = (@pageIndex - 1) * @pageSize +1
+//      set @endRow = @startRow + @pageSize -1
+/*      pageInfo.setPages((list.size() + request.getPageSize() - 1) / request.getPageSize());
+int startRow = (request.getPageNum() - 1) * request.getPageSize() + 1;
+pageInfo.setStartRow(startRow);
+pageInfo.setEndRow(startRow + request.getPageSize() - 1);*/
+</pre><p><br></p><p>If you wanna create new list, use Stream.map method:</p><p><br></p><pre class="ql-syntax" spellcheck="false">List&lt;Fruit&gt; newList = fruits.stream()
+    .map(f -&gt; new Fruit(f.getId(), f.getName() + "s", f.getCountry())
+    .collect(Collectors.toList())
+</pre><p>If you wanna modify current list, use Collection.forEach:</p><p><br></p><pre class="ql-syntax" spellcheck="false">fruits.forEach(f -&gt; f.setName(f.getName() + "s"))
+</pre><p><br></p><p>数组转换为新数组</p><pre class="ql-syntax" spellcheck="false">Stream&lt;String&gt; stream = Arrays.stream(if_oids);
+String[] IF_OIDS =
+    stream
+        .map(
+            s -&gt; {
+              return s + "." + node.getIfIndex();
+            })
+        .toArray(String[]::new);
+</pre><p><br></p><p><br></p>

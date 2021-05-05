@@ -1,0 +1,9 @@
+<attachment contenteditable="false" data-atts="%5B%5D" data-aid=".atts-3962daab-10d4-41af-8611-a4f4aef657d3"></attachment><h1><a href="https://www.cnblogs.com/xiaohouzai/p/8972286.html" target="_blank" style="color: rgb(26, 139, 200);">fastjson List&lt;&gt; 转Json , Json 转List&lt;&gt;</a></h1><h1><span style="color: rgb(255, 0, 0);">SerializeWriter：相当于StringBuffer</span></h1><h1><span style="color: rgb(255, 0, 0);">JSONArray：相当于List&lt;Object&gt;</span></h1><h1><span style="color: rgb(255, 0, 0);">JSONObject：相当于Map&lt;String, Object&gt;</span></h1><h1><span style="color: rgb(255, 0, 0);">JSON反序列化没有真正数组，本质类型都是List&lt;Object&gt;</span></h1><p><br></p><p><br></p><p><br></p><p>比如说List&lt;Strudent&gt;</p><p><strong>List转Json</strong></p><pre class="ql-syntax" spellcheck="false">List&lt;Student&gt; students = new ArrayList();
+String str = JSON.toJSONString(students); // List转json
+</pre><p><strong>Json 转List 方法一</strong></p><pre class="ql-syntax" spellcheck="false">String json = ""; //获取的Json数据
+List&lt;Student&gt; students = JSON.parseObject(json,new TypeReference&lt;List&lt;Student&gt;&gt;(){}); // Json 转List
+</pre><p><strong>Json 转List方法二</strong></p><pre class="ql-syntax" spellcheck="false">List&lt;Student&gt; students = JSON.parseArray(json,Student.class); 
+</pre><p>&nbsp;</p><p>Student 对象要实现Serializable接口</p><pre class="ql-syntax" spellcheck="false">import java.io.Serializable;  
+public class Student implements Serializable{ 
+</pre><p><br></p><pre class="ql-syntax" spellcheck="false">https://www.tuicool.com/articles/zUbQfa
+</pre><p><br></p><p><br></p><hr><p><br></p><p><br></p><p><br></p>

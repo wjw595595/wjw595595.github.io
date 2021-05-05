@@ -1,0 +1,25 @@
+## mib库浏览器
+
+http://oidref.com/
+
+http://oidref.com/1.3.6.1.2.1.31
+
+http://oid-info.com/  #去查询
+
+http://www.oidview.com/mibs/detail.html   #展开
+
+http://www.oidview.com/mibs/2011/HUAWEI-3COM-OID-MIB.html
+
+知道mib名称可以到google 保存txt文件就可以
+
+
+
+## 思科mib
+
+ftp://ftp.cisco.com/pub/mibs  （IE浏览器）
+
+## github开源
+
+https://github.com/librenms/librenms/tree/master/mibs
+
+http://www.oidview.com/mibs/2011/HUAWEI-3COM-OID-MIB.html

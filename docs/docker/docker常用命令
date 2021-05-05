@@ -1,0 +1,10 @@
+# 常用命令
+
+## 删除镜像
+
+```shell
+docker rmi [image]
+#或
+docker image rm [image]
+```
+
