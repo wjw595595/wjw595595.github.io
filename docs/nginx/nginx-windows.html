@@ -1,0 +1,4190 @@
+
+<!DOCTYPE HTML>
+<html lang="zh-hans" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Nginx Windows · David的笔记</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        <meta name="author" content="david wang">
+        
+        
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-splitter/splitter.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search-pro/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-expandable-chapters/expandable-chapters.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-theme-comscore/test.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="nginx相关配置说明.html" />
+    
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="输入并搜索" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+    
+        
+        <li>
+            <a href="https://wjw595595.github.io" target="_blank" class="custom-link">home</a>
+        </li>
+    
+    
+
+    
+    <li class="divider"></li>
+    
+
+    
+        
+        <li class="header">Docs</li>
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../../">
+            
+                <a href="../../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" >
+            
+                <span>
+            
+                    
+                    ELK
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" >
+            
+                <span>
+            
+                    
+                    Es
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1.1" data-path="../ELK/es/es好的博客.html">
+            
+                <a href="../ELK/es/es好的博客.html">
+            
+                    
+                    Es好的博客
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.1.2" data-path="../ELK/es/es概念理解.html">
+            
+                <a href="../ELK/es/es概念理解.html">
+            
+                    
+                    Es概念理解
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.1.3" data-path="../ELK/es/es节点类型.html">
+            
+                <a href="../ELK/es/es节点类型.html">
+            
+                    
+                    Es节点类型
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" >
+            
+                <span>
+            
+                    
+                    OpsManager
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../OpsManager/相关资料地址.html">
+            
+                <a href="../OpsManager/相关资料地址.html">
+            
+                    
+                    相关资料地址
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" >
+            
+                <span>
+            
+                    
+                    PHP
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="../PHP/lnmp离线安装.html">
+            
+                <a href="../PHP/lnmp离线安装.html">
+            
+                    
+                    Lnmp离线安装
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" >
+            
+                <span>
+            
+                    
+                    Docker
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="../docker/docker安装mysql.html">
+            
+                <a href="../docker/docker安装mysql.html">
+            
+                    
+                    Docker安装Mysql
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2" data-path="../docker/docker安装zabbix.html">
+            
+                <a href="../docker/docker安装zabbix.html">
+            
+                    
+                    Docker安装Zabbix
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.3" data-path="../docker/docker打包镜像.html">
+            
+                <a href="../docker/docker打包镜像.html">
+            
+                    
+                    Docker打包镜像
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.4" data-path="../docker/docker离线安装.html">
+            
+                <a href="../docker/docker离线安装.html">
+            
+                    
+                    Docker离线安装
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.5" data-path="../docker/docker防火墙问题.html">
+            
+                <a href="../docker/docker防火墙问题.html">
+            
+                    
+                    Docker防火墙问题
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" >
+            
+                <span>
+            
+                    
+                    Docker Book
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1" >
+            
+                <span>
+            
+                    
+                    Dockerfile.Assets
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2" data-path="../docker_book/Dockerfile.html">
+            
+                <a href="../docker_book/Dockerfile.html">
+            
+                    
+                    Dockerfile
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.3" data-path="../docker_book/docker-compose字典.html">
+            
+                <a href="../docker_book/docker-compose字典.html">
+            
+                    
+                    Docker Compose字典
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.4" data-path="../docker_book/docker-compose配置.html">
+            
+                <a href="../docker_book/docker-compose配置.html">
+            
+                    
+                    Docker Compose配置
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.5" data-path="../docker_book/docker-compse命令.html">
+            
+                <a href="../docker_book/docker-compse命令.html">
+            
+                    
+                    Docker Compse命令
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.6" data-path="../docker_book/dockerfile制作springboot.html">
+            
+                <a href="../docker_book/dockerfile制作springboot.html">
+            
+                    
+                    Dockerfile制作Springboot
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.7" >
+            
+                <span>
+            
+                    
+                    Docker实战教程.Assets
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.8" data-path="../docker_book/docker实战教程.html">
+            
+                <a href="../docker_book/docker实战教程.html">
+            
+                    
+                    Docker实战教程
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.9" data-path="../docker_book/docker概念对比.html">
+            
+                <a href="../docker_book/docker概念对比.html">
+            
+                    
+                    Docker概念对比
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.10" >
+            
+                <span>
+            
+                    
+                    Linux虚拟化技术.Assets
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.11" data-path="../docker_book/linux虚拟网络技术.html">
+            
+                <a href="../docker_book/linux虚拟网络技术.html">
+            
+                    
+                    Linux虚拟网络技术
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.12" >
+            
+                <span>
+            
+                    
+                    Volume.Assets
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.13" data-path="../docker_book/volume.html">
+            
+                <a href="../docker_book/volume.html">
+            
+                    
+                    Volume
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.14" data-path="../docker_book/知识点扫盲.html">
+            
+                <a href="../docker_book/知识点扫盲.html">
+            
+                    
+                    知识点扫盲
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" >
+            
+                <span>
+            
+                    
+                    Git
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.1" data-path="../git/gitee相关.html">
+            
+                <a href="../git/gitee相关.html">
+            
+                    
+                    Gitee相关
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.2" data-path="../git/github相关.html">
+            
+                <a href="../git/github相关.html">
+            
+                    
+                    Github相关
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.3" data-path="../git/git命令.html">
+            
+                <a href="../git/git命令.html">
+            
+                    
+                    Git命令
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.4" >
+            
+                <span>
+            
+                    
+                    Git相关工具.Assets
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.5" data-path="../git/git相关工具.html">
+            
+                <a href="../git/git相关工具.html">
+            
+                    
+                    Git相关工具
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.6" data-path="../git/windows配置过个git客户端.html">
+            
+                <a href="../git/windows配置过个git客户端.html">
+            
+                    
+                    Windows配置过个Git客户端
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.7" data-path="../git/配置多个ssh秘钥.html">
+            
+                <a href="../git/配置多个ssh秘钥.html">
+            
+                    
+                    配置多个Ssh秘钥
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.8" data-path="../git/配置秘钥.html">
+            
+                <a href="../git/配置秘钥.html">
+            
+                    
+                    配置秘钥
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" >
+            
+                <span>
+            
+                    
+                    Gitlab
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9" >
+            
+                <span>
+            
+                    
+                    Go语言
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.9.1" data-path="../go语言/go环境安装-win.html">
+            
+                <a href="../go语言/go环境安装-win.html">
+            
+                    
+                    Go环境安装 Win
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.2" data-path="../go语言/开发环境.html">
+            
+                <a href="../go语言/开发环境.html">
+            
+                    
+                    开发环境
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.3" data-path="../go语言/编译项目.html">
+            
+                <a href="../go语言/编译项目.html">
+            
+                    
+                    编译项目
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10" >
+            
+                <span>
+            
+                    
+                    Grafana
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.10.1" data-path="../grafana/grafana嵌入其他项目.html">
+            
+                <a href="../grafana/grafana嵌入其他项目.html">
+            
+                    
+                    Grafana嵌入其他项目
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.11" >
+            
+                <span>
+            
+                    
+                    Idea
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.11.1" data-path="../idea/MybatisCodeHelper 插件激活.html">
+            
+                <a href="../idea/MybatisCodeHelper 插件激活.html">
+            
+                    
+                    MybatisCodeHelper 插件激活
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.11.2" >
+            
+                <span>
+            
+                    
+                    Idea Moudle目录结构.Assets
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.11.3" data-path="../idea/idea-moudle目录结构.html">
+            
+                <a href="../idea/idea-moudle目录结构.html">
+            
+                    
+                    Idea Moudle目录结构
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.11.4" data-path="../idea/idea多模块创建.html">
+            
+                <a href="../idea/idea多模块创建.html">
+            
+                    
+                    Idea多模块创建
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.11.5" data-path="../idea/idea实现docker远程部署.html">
+            
+                <a href="../idea/idea实现docker远程部署.html">
+            
+                    
+                    Idea实现Docker远程部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.11.6" data-path="../idea/idea快捷键.html">
+            
+                <a href="../idea/idea快捷键.html">
+            
+                    
+                    Idea快捷键
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.11.7" data-path="../idea/idea插件.html">
+            
+                <a href="../idea/idea插件.html">
+            
+                    
+                    Idea插件
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.11.8" data-path="../idea/jrebel热部署破解.html">
+            
+                <a href="../idea/jrebel热部署破解.html">
+            
+                    
+                    Jrebel热部署破解
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.11.9" data-path="../idea/代码自动补齐.html">
+            
+                <a href="../idea/代码自动补齐.html">
+            
+                    
+                    代码自动补齐
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.11.10" data-path="../idea/热部署.html">
+            
+                <a href="../idea/热部署.html">
+            
+                    
+                    热部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.12" >
+            
+                <span>
+            
+                    
+                    Java
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13" >
+            
+                <span>
+            
+                    
+                    Jenkins
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.14" >
+            
+                <span>
+            
+                    
+                    Linux命令
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.14.1" >
+            
+                <span>
+            
+                    
+                    Centos7
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.14.1.1" >
+            
+                <span>
+            
+                    
+                    Untitled.Assets
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.14.1.2" data-path="../linux命令/centos7/centos7个版本区别.html">
+            
+                <a href="../linux命令/centos7/centos7个版本区别.html">
+            
+                    
+                    Centos7个版本区别
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.14.1.3" data-path="../linux命令/centos7/centos常用技巧.html">
+            
+                <a href="../linux命令/centos7/centos常用技巧.html">
+            
+                    
+                    Centos常用技巧
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.14.1.4" data-path="../linux命令/centos7/防火墙iptables.html">
+            
+                <a href="../linux命令/centos7/防火墙iptables.html">
+            
+                    
+                    防火墙Iptables
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.14.2" data-path="../linux命令/extundelete恢复工具.html">
+            
+                <a href="../linux命令/extundelete恢复工具.html">
+            
+                    
+                    Extundelete恢复工具
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.14.3" data-path="../linux命令/linux常用技巧.html">
+            
+                <a href="../linux命令/linux常用技巧.html">
+            
+                    
+                    Linux常用技巧
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.14.4" data-path="../linux命令/rpm包地址.html">
+            
+                <a href="../linux命令/rpm包地址.html">
+            
+                    
+                    Rpm包地址
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.14.5" >
+            
+                <span>
+            
+                    
+                    Shell
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.14.5.1" data-path="../linux命令/shell/$的含义.html">
+            
+                <a href="../linux命令/shell/$的含义.html">
+            
+                    
+                    $的含义
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.14.6" >
+            
+                <span>
+            
+                    
+                    Vmware扩容.Assets
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.14.7" data-path="../linux命令/vmware扩容.html">
+            
+                <a href="../linux命令/vmware扩容.html">
+            
+                    
+                    Vmware扩容
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.14.8" >
+            
+                <span>
+            
+                    
+                    常用命令.Assets
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.14.9" data-path="../linux命令/挂载.html">
+            
+                <a href="../linux命令/挂载.html">
+            
+                    
+                    挂载
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.15" >
+            
+                <span>
+            
+                    
+                    Lombok
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.16" >
+            
+                <span>
+            
+                    
+                    Markdown
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.16.1" data-path="../markdown/gitbook使用.html">
+            
+                <a href="../markdown/gitbook使用.html">
+            
+                    
+                    Gitbook使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.16.2" data-path="../markdown/gitbook最新整理.html">
+            
+                <a href="../markdown/gitbook最新整理.html">
+            
+                    
+                    Gitbook最新整理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.16.3" data-path="../markdown/markdown练习.html">
+            
+                <a href="../markdown/markdown练习.html">
+            
+                    
+                    Markdown练习
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.16.4" data-path="../markdown/typora 标题自动编号.html">
+            
+                <a href="../markdown/typora 标题自动编号.html">
+            
+                    
+                    Typora 标题自动编号
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.16.5" data-path="../markdown/typora配置图床.html">
+            
+                <a href="../markdown/typora配置图床.html">
+            
+                    
+                    Typora配置图床
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.17" >
+            
+                <span>
+            
+                    
+                    Maven
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.18" >
+            
+                <span>
+            
+                    
+                    Mind
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.19" >
+            
+                <span>
+            
+                    
+                    Mq
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.19.1" data-path="../mq/rabbitmq安装docker .html">
+            
+                <a href="../mq/rabbitmq安装docker .html">
+            
+                    
+                    Rabbitmq安装Docker 
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.19.2" data-path="../mq/rabbit简单认识.html">
+            
+                <a href="../mq/rabbit简单认识.html">
+            
+                    
+                    Rabbit简单认识
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.19.3" data-path="../mq/消息队列对比.html">
+            
+                <a href="../mq/消息队列对比.html">
+            
+                    
+                    消息队列对比
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.20" >
+            
+                <span>
+            
+                    
+                    Mybatis Plus
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.20.1" data-path="../mybatis-plus/mybatis-plus文档.html">
+            
+                <a href="../mybatis-plus/mybatis-plus文档.html">
+            
+                    
+                    Mybatis Plus文档
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.21" >
+            
+                <span>
+            
+                    
+                    Mybatis
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.22" >
+            
+                <span>
+            
+                    
+                    Mysql
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.22.1" data-path="../mysql/mysql问题.html">
+            
+                <a href="../mysql/mysql问题.html">
+            
+                    
+                    Mysql问题
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.23" >
+            
+                <span>
+            
+                    
+                    Nginx
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter active" data-level="1.23.1" data-path="nginx-windows.html">
+            
+                <a href="nginx-windows.html">
+            
+                    
+                    Nginx Windows
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.23.2" data-path="nginx相关配置说明.html">
+            
+                <a href="nginx相关配置说明.html">
+            
+                    
+                    Nginx相关配置说明
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.24" >
+            
+                <span>
+            
+                    
+                    Nodejs
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.24.1" >
+            
+                <span>
+            
+                    
+                    Nodejs Windows安装.Assets
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.24.2" data-path="../nodejs/nodejs-windows安装.html">
+            
+                <a href="../nodejs/nodejs-windows安装.html">
+            
+                    
+                    Nodejs Windows安装
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.24.3" data-path="../nodejs/nodejs安装.html">
+            
+                <a href="../nodejs/nodejs安装.html">
+            
+                    
+                    Nodejs安装
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.24.4" data-path="../nodejs/nvm安装.html">
+            
+                <a href="../nodejs/nvm安装.html">
+            
+                    
+                    Nvm安装
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.25" >
+            
+                <span>
+            
+                    
+                    Oracle
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.25.1" data-path="../oracle/Centos7下安装ORACLE 11g，弹窗不显示.html">
+            
+                <a href="../oracle/Centos7下安装ORACLE 11g，弹窗不显示.html">
+            
+                    
+                    Centos7下安装ORACLE 11g，弹窗不显示
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.25.2" data-path="../oracle/centos7安装oracle.html">
+            
+                <a href="../oracle/centos7安装oracle.html">
+            
+                    
+                    Centos7安装Oracle
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.25.3" data-path="../oracle/oracle-rac集群.html">
+            
+                <a href="../oracle/oracle-rac集群.html">
+            
+                    
+                    Oracle Rac集群
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.25.4" data-path="../oracle/oracle连接.html">
+            
+                <a href="../oracle/oracle连接.html">
+            
+                    
+                    Oracle连接
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.25.5" data-path="../oracle/天兔安装实战.html">
+            
+                <a href="../oracle/天兔安装实战.html">
+            
+                    
+                    天兔安装实战
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.26" >
+            
+                <span>
+            
+                    
+                    Powerdesigner
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.26.1" data-path="../powerdesigner/模板.html">
+            
+                <a href="../powerdesigner/模板.html">
+            
+                    
+                    模板
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.27" >
+            
+                <span>
+            
+                    
+                    Prometheus相关
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.27.1" data-path="../prometheus相关/api.html">
+            
+                <a href="../prometheus相关/api.html">
+            
+                    
+                    Api
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.27.2" >
+            
+                <span>
+            
+                    
+                    Exporter
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.27.2.1" data-path="../prometheus相关/exporter/ICMP修改ping监控.html">
+            
+                <a href="../prometheus相关/exporter/ICMP修改ping监控.html">
+            
+                    
+                    ICMP修改Ping监控
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.27.2.2" data-path="../prometheus相关/exporter/prometheus监控mysql.html">
+            
+                <a href="../prometheus相关/exporter/prometheus监控mysql.html">
+            
+                    
+                    Prometheus监控Mysql
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.27.2.3" data-path="../prometheus相关/exporter/prometheus监控snmp.html">
+            
+                <a href="../prometheus相关/exporter/prometheus监控snmp.html">
+            
+                    
+                    Prometheus监控Snmp
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.27.2.4" data-path="../prometheus相关/exporter/好用的exporter.html">
+            
+                <a href="../prometheus相关/exporter/好用的exporter.html">
+            
+                    
+                    好用的Exporter
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.27.2.5" data-path="../prometheus相关/exporter/安装node_exporter.html">
+            
+                <a href="../prometheus相关/exporter/安装node_exporter.html">
+            
+                    
+                    安装Node Exporter
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.27.2.6" data-path="../prometheus相关/exporter/监控oracle.html">
+            
+                <a href="../prometheus相关/exporter/监控oracle.html">
+            
+                    
+                    监控Oracle
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.27.2.7" data-path="../prometheus相关/exporter/监控sqlserver.html">
+            
+                <a href="../prometheus相关/exporter/监控sqlserver.html">
+            
+                    
+                    监控Sqlserver
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.27.2.8" data-path="../prometheus相关/exporter/监控windows.html">
+            
+                <a href="../prometheus相关/exporter/监控windows.html">
+            
+                    
+                    监控Windows
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.27.3" data-path="../prometheus相关/promQL函数.html">
+            
+                <a href="../prometheus相关/promQL函数.html">
+            
+                    
+                    PromQL函数
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.27.4" data-path="../prometheus相关/prometheus基础概念.html">
+            
+                <a href="../prometheus相关/prometheus基础概念.html">
+            
+                    
+                    Prometheus基础概念
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.27.5" data-path="../prometheus相关/prometheus官网教程.html">
+            
+                <a href="../prometheus相关/prometheus官网教程.html">
+            
+                    
+                    Prometheus官网教程
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.27.6" data-path="../prometheus相关/prometheus的relabel_configs的理解.html">
+            
+                <a href="../prometheus相关/prometheus的relabel_configs的理解.html">
+            
+                    
+                    Prometheus的Relabel Configs的理解
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.27.7" data-path="../prometheus相关/prometheus监控expoter.html">
+            
+                <a href="../prometheus相关/prometheus监控expoter.html">
+            
+                    
+                    Prometheus监控Expoter
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.27.8" data-path="../prometheus相关/prometh踩坑集锦.html">
+            
+                <a href="../prometheus相关/prometh踩坑集锦.html">
+            
+                    
+                    Prometh踩坑集锦
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.27.9" data-path="../prometheus相关/prome启动参数.html">
+            
+                <a href="../prometheus相关/prome启动参数.html">
+            
+                    
+                    Prome启动参数
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.27.10" data-path="../prometheus相关/yaml配置.html">
+            
+                <a href="../prometheus相关/yaml配置.html">
+            
+                    
+                    Yaml配置
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.27.11" >
+            
+                <span>
+            
+                    
+                    监控Oracle
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.27.11.1" data-path="../prometheus相关/监控oracle/oracle--DG监控脚本.html">
+            
+                <a href="../prometheus相关/监控oracle/oracle--DG监控脚本.html">
+            
+                    
+                    Oracle  DG监控脚本
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.27.12" >
+            
+                <span>
+            
+                    
+                    监控场景
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.27.12.1" data-path="../prometheus相关/监控场景/监控linux.html">
+            
+                <a href="../prometheus相关/监控场景/监控linux.html">
+            
+                    
+                    监控Linux
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.28" >
+            
+                <span>
+            
+                    
+                    Redis配置
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.29" >
+            
+                <span>
+            
+                    
+                    Snmp
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.29.1" >
+            
+                <span>
+            
+                    
+                    MIB
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.29.1.1" data-path="../snmp/MIB/MIB工具.html">
+            
+                <a href="../snmp/MIB/MIB工具.html">
+            
+                    
+                    MIB工具
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.29.1.2" data-path="../snmp/MIB/常用oid.html">
+            
+                <a href="../snmp/MIB/常用oid.html">
+            
+                    
+                    常用Oid
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.29.1.3" data-path="../snmp/MIB/服务器管理.html">
+            
+                <a href="../snmp/MIB/服务器管理.html">
+            
+                    
+                    服务器管理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.29.1.4" data-path="../snmp/MIB/私有mib库.html">
+            
+                <a href="../snmp/MIB/私有mib库.html">
+            
+                    
+                    私有Mib库
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.29.1.5" data-path="../snmp/MIB/获取设备mib文件.html">
+            
+                <a href="../snmp/MIB/获取设备mib文件.html">
+            
+                    
+                    获取设备Mib文件
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.29.2" data-path="../snmp/ifOperStatus和ifAdminStatus.html">
+            
+                <a href="../snmp/ifOperStatus和ifAdminStatus.html">
+            
+                    
+                    IfOperStatus和IfAdminStatus
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.29.3" >
+            
+                <span>
+            
+                    
+                    Net Snmp
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.29.3.1" data-path="../snmp/net-snmp/net-snmp-mibs库加载.html">
+            
+                <a href="../snmp/net-snmp/net-snmp-mibs库加载.html">
+            
+                    
+                    Net Snmp Mibs库加载
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.29.3.2" data-path="../snmp/net-snmp/net-snmp离线安装.html">
+            
+                <a href="../snmp/net-snmp/net-snmp离线安装.html">
+            
+                    
+                    Net Snmp离线安装
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.29.3.3" data-path="../snmp/net-snmp/snmp命令.html">
+            
+                <a href="../snmp/net-snmp/snmp命令.html">
+            
+                    
+                    Snmp命令
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.29.3.4" data-path="../snmp/net-snmp/查看udp端口.html">
+            
+                <a href="../snmp/net-snmp/查看udp端口.html">
+            
+                    
+                    查看Udp端口
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.29.4" data-path="../snmp/snmp-网络端口.html">
+            
+                <a href="../snmp/snmp-网络端口.html">
+            
+                    
+                    Snmp 网络端口
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.29.5" data-path="../snmp/telegraf抓取.html">
+            
+                <a href="../snmp/telegraf抓取.html">
+            
+                    
+                    Telegraf抓取
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.29.6" data-path="../snmp/windows和linux开启snmp服务.html">
+            
+                <a href="../snmp/windows和linux开启snmp服务.html">
+            
+                    
+                    Windows和Linux开启Snmp服务
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.29.7" data-path="../snmp/交换机端口类型.html">
+            
+                <a href="../snmp/交换机端口类型.html">
+            
+                    
+                    交换机端口类型
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.29.8" data-path="../snmp/协议比较.html">
+            
+                <a href="../snmp/协议比较.html">
+            
+                    
+                    协议比较
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.29.9" data-path="../snmp/监控dell物理服务器.html">
+            
+                <a href="../snmp/监控dell物理服务器.html">
+            
+                    
+                    监控Dell物理服务器
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.29.10" >
+            
+                <span>
+            
+                    
+                    监控场景
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.29.11" data-path="../snmp/监控工具.html">
+            
+                <a href="../snmp/监控工具.html">
+            
+                    
+                    监控工具
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.29.12" data-path="../snmp/相关产品对应的mib库.html">
+            
+                <a href="../snmp/相关产品对应的mib库.html">
+            
+                    
+                    相关产品对应的Mib库
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.29.13" data-path="../snmp/网络端口流量计算.html">
+            
+                <a href="../snmp/网络端口流量计算.html">
+            
+                    
+                    网络端口流量计算
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.30" >
+            
+                <span>
+            
+                    
+                    Springboot
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.30.1" data-path="../springboot/Http请求几种方式.html">
+            
+                <a href="../springboot/Http请求几种方式.html">
+            
+                    
+                    Http请求几种方式
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.30.2" data-path="../springboot/logback日志.html">
+            
+                <a href="../springboot/logback日志.html">
+            
+                    
+                    Logback日志
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.30.3" data-path="../springboot/springmvc注释.html">
+            
+                <a href="../springboot/springmvc注释.html">
+            
+                    
+                    Springmvc注释
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.30.4" >
+            
+                <span>
+            
+                    
+                    插件
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.30.4.1" data-path="../springboot/插件/pagehelper.html">
+            
+                <a href="../springboot/插件/pagehelper.html">
+            
+                    
+                    Pagehelper
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.31" >
+            
+                <span>
+            
+                    
+                    Springboot完整项目
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.31.1" data-path="../springboot完整项目/大幅度发.html">
+            
+                <a href="../springboot完整项目/大幅度发.html">
+            
+                    
+                    大幅度发
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.31.2" data-path="../springboot完整项目/开源流程.html">
+            
+                <a href="../springboot完整项目/开源流程.html">
+            
+                    
+                    开源流程
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.32" >
+            
+                <span>
+            
+                    
+                    Swagger
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.33" >
+            
+                <span>
+            
+                    
+                    Tomcat
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.33.1" data-path="../tomcat/tomcat启动配置.html">
+            
+                <a href="../tomcat/tomcat启动配置.html">
+            
+                    
+                    Tomcat启动配置
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.34" >
+            
+                <span>
+            
+                    
+                    Vi命令
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.35" >
+            
+                <span>
+            
+                    
+                    Vmware
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.35.1" data-path="../vmware/vmware扩容.html">
+            
+                <a href="../vmware/vmware扩容.html">
+            
+                    
+                    Vmware扩容
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.35.2" data-path="../vmware/虚拟机扩容-home转root.html">
+            
+                <a href="../vmware/虚拟机扩容-home转root.html">
+            
+                    
+                    虚拟机扩容 Home转Root
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.35.3" data-path="../vmware/虚拟机扩容.html">
+            
+                <a href="../vmware/虚拟机扩容.html">
+            
+                    
+                    虚拟机扩容
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.36" >
+            
+                <span>
+            
+                    
+                    Vpn
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.36.1" data-path="../vpn/Goflyway配置.html">
+            
+                <a href="../vpn/Goflyway配置.html">
+            
+                    
+                    Goflyway配置
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.36.2" data-path="../vpn/vps申请.html">
+            
+                <a href="../vpn/vps申请.html">
+            
+                    
+                    Vps申请
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.37" >
+            
+                <span>
+            
+                    
+                    Vscode
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.37.1" >
+            
+                <span>
+            
+                    
+                    Untitled.Assets
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.37.2" >
+            
+                <span>
+            
+                    
+                    Vscode使用.Assets
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.37.3" data-path="../vscode/vscode使用.html">
+            
+                <a href="../vscode/vscode使用.html">
+            
+                    
+                    Vscode使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.37.4" data-path="../vscode/vscode快捷键.html">
+            
+                <a href="../vscode/vscode快捷键.html">
+            
+                    
+                    Vscode快捷键
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.37.5" >
+            
+                <span>
+            
+                    
+                    Vscode插件.Assets
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.37.6" data-path="../vscode/vscode插件.html">
+            
+                <a href="../vscode/vscode插件.html">
+            
+                    
+                    Vscode插件
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.37.7" data-path="../vscode/vue开发配置.html">
+            
+                <a href="../vscode/vue开发配置.html">
+            
+                    
+                    Vue开发配置
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.38" >
+            
+                <span>
+            
+                    
+                    Vue
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.38.1" >
+            
+                <span>
+            
+                    
+                    Untitled.Assets
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.38.2" data-path="../vue/echart相关.html">
+            
+                <a href="../vue/echart相关.html">
+            
+                    
+                    Echart相关
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.38.3" data-path="../vue/v-bind和v-model区别.html">
+            
+                <a href="../vue/v-bind和v-model区别.html">
+            
+                    
+                    V Bind和V Model区别
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.38.4" >
+            
+                <span>
+            
+                    
+                    Vue Admin Template教程.Assets
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.38.5" data-path="../vue/vue-admin-template教程.html">
+            
+                <a href="../vue/vue-admin-template教程.html">
+            
+                    
+                    Vue Admin Template教程
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.38.6" data-path="../vue/vue-ui创建.html">
+            
+                <a href="../vue/vue-ui创建.html">
+            
+                    
+                    Vue Ui创建
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.38.7" data-path="../vue/vue命令行安装脚手架.html">
+            
+                <a href="../vue/vue命令行安装脚手架.html">
+            
+                    
+                    Vue命令行安装脚手架
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.38.8" data-path="../vue/vue学习笔记.html">
+            
+                <a href="../vue/vue学习笔记.html">
+            
+                    
+                    Vue学习笔记
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.38.9" data-path="../vue/vue开发笔记.html">
+            
+                <a href="../vue/vue开发笔记.html">
+            
+                    
+                    Vue开发笔记
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.38.10" >
+            
+                <span>
+            
+                    
+                    Vue环境搭建.Assets
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.38.11" data-path="../vue/vue环境搭建.html">
+            
+                <a href="../vue/vue环境搭建.html">
+            
+                    
+                    Vue环境搭建
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.38.12" data-path="../vue/vue项目升级element.html">
+            
+                <a href="../vue/vue项目升级element.html">
+            
+                    
+                    Vue项目升级Element
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.38.13" >
+            
+                <span>
+            
+                    
+                    命令行安装脚手架.Assets
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.38.14" data-path="../vue/表单设计.html">
+            
+                <a href="../vue/表单设计.html">
+            
+                    
+                    表单设计
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.39" >
+            
+                <span>
+            
+                    
+                    Windows
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.39.1" data-path="../windows/C盘瘦身.html">
+            
+                <a href="../windows/C盘瘦身.html">
+            
+                    
+                    C盘瘦身
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.39.2" data-path="../windows/windows10开机锁屏.html">
+            
+                <a href="../windows/windows10开机锁屏.html">
+            
+                    
+                    Windows10开机锁屏
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.39.3" data-path="../windows/windows背景图.html">
+            
+                <a href="../windows/windows背景图.html">
+            
+                    
+                    Windows背景图
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.39.4" data-path="../windows/win定时任务.html">
+            
+                <a href="../windows/win定时任务.html">
+            
+                    
+                    Win定时任务
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.39.5" >
+            
+                <span>
+            
+                    
+                    测试.Assets
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.39.6" data-path="../windows/首页被劫持去除小图标.html">
+            
+                <a href="../windows/首页被劫持去除小图标.html">
+            
+                    
+                    首页被劫持去除小图标
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.40" >
+            
+                <span>
+            
+                    
+                    Zabbix
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.40.1" data-path="../zabbix/zabbix常用知识.html">
+            
+                <a href="../zabbix/zabbix常用知识.html">
+            
+                    
+                    Zabbix常用知识
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.40.2" data-path="../zabbix/zabbix的docker安装.html">
+            
+                <a href="../zabbix/zabbix的docker安装.html">
+            
+                    
+                    Zabbix的Docker安装
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.41" >
+            
+                <span>
+            
+                    
+                    云
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.42" >
+            
+                <span>
+            
+                    
+                    云原生
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.42.1" >
+            
+                <span>
+            
+                    
+                    Untitled.Assets
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.42.2" data-path="../云原生/云原生概念.html">
+            
+                <a href="../云原生/云原生概念.html">
+            
+                    
+                    云原生概念
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.43" >
+            
+                <span>
+            
+                    
+                    交换机
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.43.1" >
+            
+                <span>
+            
+                    
+                    华三交换机
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.43.2" >
+            
+                <span>
+            
+                    
+                    华为交换机
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.43.2.1" data-path="../交换机/华为交换机/交换机配置.html">
+            
+                <a href="../交换机/华为交换机/交换机配置.html">
+            
+                    
+                    交换机配置
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.43.3" >
+            
+                <span>
+            
+                    
+                    思科交换机
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.43.4" data-path="../交换机/物理口区别.html">
+            
+                <a href="../交换机/物理口区别.html">
+            
+                    
+                    物理口区别
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.43.5" data-path="../交换机/网络拓扑工具.html">
+            
+                <a href="../交换机/网络拓扑工具.html">
+            
+                    
+                    网络拓扑工具
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.43.6" >
+            
+                <span>
+            
+                    
+                    锐捷交换机
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.44" >
+            
+                <span>
+            
+                    
+                    分布式
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.44.1" data-path="../分布式/CAP和BASE.html">
+            
+                <a href="../分布式/CAP和BASE.html">
+            
+                    
+                    CAP和BASE
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.44.2" data-path="../分布式/centos7安装redis 6.05.html">
+            
+                <a href="../分布式/centos7安装redis 6.05.html">
+            
+                    
+                    Centos7安装Redis 6.05
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.44.3" data-path="../分布式/springboot2+dubbo安装+zookeeper.html">
+            
+                <a href="../分布式/springboot2+dubbo安装+zookeeper.html">
+            
+                    
+                    Springboot2+Dubbo安装+Zookeeper
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.44.4" data-path="../分布式/tomcat并发.html">
+            
+                <a href="../分布式/tomcat并发.html">
+            
+                    
+                    Tomcat并发
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.44.5" data-path="../分布式/zookeeper安装.html">
+            
+                <a href="../分布式/zookeeper安装.html">
+            
+                    
+                    Zookeeper安装
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.44.6" data-path="../分布式/分布式-从有状态到无状态-长连接短连接.html">
+            
+                <a href="../分布式/分布式-从有状态到无状态-长连接短连接.html">
+            
+                    
+                    分布式 从有状态到无状态 长连接短连接
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.44.7" data-path="../分布式/分布式-集群.html">
+            
+                <a href="../分布式/分布式-集群.html">
+            
+                    
+                    分布式 集群
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.44.8" data-path="../分布式/分布式事务二阶段三阶段.html">
+            
+                <a href="../分布式/分布式事务二阶段三阶段.html">
+            
+                    
+                    分布式事务二阶段三阶段
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.44.9" data-path="../分布式/分布式理论.html">
+            
+                <a href="../分布式/分布式理论.html">
+            
+                    
+                    分布式理论
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.44.10" data-path="../分布式/架构设计.html">
+            
+                <a href="../分布式/架构设计.html">
+            
+                    
+                    架构设计
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.44.11" data-path="../分布式/消息代理对比.html">
+            
+                <a href="../分布式/消息代理对比.html">
+            
+                    
+                    消息代理对比
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.45" >
+            
+                <span>
+            
+                    
+                    参考产品
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.45.1" data-path="../参考产品/运维监控软件wgcloud.html">
+            
+                <a href="../参考产品/运维监控软件wgcloud.html">
+            
+                    
+                    运维监控软件Wgcloud
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.46" >
+            
+                <span>
+            
+                    
+                    常用
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.47" >
+            
+                <span>
+            
+                    
+                    开发工具
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.47.1" data-path="../开发工具/chrome常用插件.html">
+            
+                <a href="../开发工具/chrome常用插件.html">
+            
+                    
+                    Chrome常用插件
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.47.2" data-path="../开发工具/sublime破解.html">
+            
+                <a href="../开发工具/sublime破解.html">
+            
+                    
+                    Sublime破解
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.47.3" >
+            
+                <span>
+            
+                    
+                    好工具.Assets
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.47.4" data-path="../开发工具/好工具.html">
+            
+                <a href="../开发工具/好工具.html">
+            
+                    
+                    好工具
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.47.5" data-path="../开发工具/客户端http连接工具.html">
+            
+                <a href="../开发工具/客户端http连接工具.html">
+            
+                    
+                    客户端Http连接工具
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.47.6" >
+            
+                <span>
+            
+                    
+                    数据库管理工具
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.47.6.1" >
+            
+                <span>
+            
+                    
+                    Navicat破解.Assets
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.47.6.2" data-path="../开发工具/数据库管理工具/navicat破解.html">
+            
+                <a href="../开发工具/数据库管理工具/navicat破解.html">
+            
+                    
+                    Navicat破解
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.47.7" data-path="../开发工具/画图工具.html">
+            
+                <a href="../开发工具/画图工具.html">
+            
+                    
+                    画图工具
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.47.8" data-path="../开发工具/网址生成exe文件.html">
+            
+                <a href="../开发工具/网址生成exe文件.html">
+            
+                    
+                    网址生成Exe文件
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.47.9" data-path="../开发工具/远程连接工具.html">
+            
+                <a href="../开发工具/远程连接工具.html">
+            
+                    
+                    远程连接工具
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.48" >
+            
+                <span>
+            
+                    
+                    扬州Project
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.48.1" data-path="../扬州project/docker二阶段部署.html">
+            
+                <a href="../扬州project/docker二阶段部署.html">
+            
+                    
+                    Docker二阶段部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.48.2" data-path="../扬州project/jar整合流程.html">
+            
+                <a href="../扬州project/jar整合流程.html">
+            
+                    
+                    Jar整合流程
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.48.3" data-path="../扬州project/nginx配置.html">
+            
+                <a href="../扬州project/nginx配置.html">
+            
+                    
+                    Nginx配置
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.48.4" data-path="../扬州project/vue开发笔记.html">
+            
+                <a href="../扬州project/vue开发笔记.html">
+            
+                    
+                    Vue开发笔记
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.48.5" data-path="../扬州project/前端打包.html">
+            
+                <a href="../扬州project/前端打包.html">
+            
+                    
+                    前端打包
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.49" >
+            
+                <span>
+            
+                    
+                    数据库
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.49.1" >
+            
+                <span>
+            
+                    
+                    Arangodb
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.49.1.1" data-path="../数据库/arangodb/windows安装.html">
+            
+                <a href="../数据库/arangodb/windows安装.html">
+            
+                    
+                    Windows安装
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.49.2" >
+            
+                <span>
+            
+                    
+                    Influxdb
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.49.2.1" data-path="../数据库/influxdb/telegraf.html">
+            
+                <a href="../数据库/influxdb/telegraf.html">
+            
+                    
+                    Telegraf
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.49.2.2" data-path="../数据库/influxdb/数据类型.html">
+            
+                <a href="../数据库/influxdb/数据类型.html">
+            
+                    
+                    数据类型
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.50" >
+            
+                <span>
+            
+                    
+                    日志管理
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.51" >
+            
+                <span>
+            
+                    
+                    架构设计
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.51.1" data-path="../架构设计/API接口设计.html">
+            
+                <a href="../架构设计/API接口设计.html">
+            
+                    
+                    API接口设计
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.52" >
+            
+                <span>
+            
+                    
+                    监控
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.52.1" >
+            
+                <span>
+            
+                    
+                    ICMP监控
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.52.2" >
+            
+                <span>
+            
+                    
+                    SNMP监控
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.52.3" >
+            
+                <span>
+            
+                    
+                    SSH监控
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.52.3.1" data-path="../监控/SSH监控/java监控ssh.html">
+            
+                <a href="../监控/SSH监控/java监控ssh.html">
+            
+                    
+                    Java监控Ssh
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.52.3.2" data-path="../监控/SSH监控/监控shell脚本linux.html">
+            
+                <a href="../监控/SSH监控/监控shell脚本linux.html">
+            
+                    
+                    监控Shell脚本Linux
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.52.3.3" data-path="../监控/SSH监控/相关工具.html">
+            
+                <a href="../监控/SSH监控/相关工具.html">
+            
+                    
+                    相关工具
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.53" >
+            
+                <span>
+            
+                    
+                    类型转化
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.54" >
+            
+                <span>
+            
+                    
+                    网络协议
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.55" >
+            
+                <span>
+            
+                    
+                    运维监控
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.55.1" data-path="../运维监控/运维产品.html">
+            
+                <a href="../运维监控/运维产品.html">
+            
+                    
+                    运维产品
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.56" data-path="../重装系统流程.html">
+            
+                <a href="../重装系统流程.html">
+            
+                    
+                    重装系统流程
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.57" >
+            
+                <span>
+            
+                    
+                    面试
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.58" >
+            
+                <span>
+            
+                    
+                    领域模型
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            本书使用 GitBook 发布
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../.." >Nginx Windows</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h2 id="&#x5B89;&#x88C5;">&#x5B89;&#x88C5;</h2>
+<p><a href="http://nginx.org/en/download.html" target="_blank">http://nginx.org/en/download.html</a></p>
+<p>&#x89E3;&#x538B;</p>
+<p>&#x70B9;&#x51FB; nginx.exe </p>
+<p>&#x8BBF;&#x95EE;&#xFF1A;80 &#x7AEF;&#x53E3;</p>
+<h2 id="&#x4FEE;&#x6539;&#x914D;&#x7F6E;&#x6587;&#x4EF6;">&#x4FEE;&#x6539;&#x914D;&#x7F6E;&#x6587;&#x4EF6;</h2>
+<p>conf/nginx.conf&#xFF0C;&#x4FEE;&#x6539;&#x9ED8;&#x8BA4;&#x7AEF;&#x53E3;</p>
+<pre><code>start nginx
+</code></pre><p><img src="https://i.loli.net/2021/04/22/oWrXz2fFc1TmjeQ.png" alt="img"></p>
+<h2 id="&#x5173;&#x95ED;">&#x5173;&#x95ED;</h2>
+<p>(1)&#x8F93;&#x5165;nginx&#x547D;&#x4EE4;  nginx -s stop(&#x5FEB;&#x901F;&#x505C;&#x6B62;nginx)  &#x6216;  nginx -s quit(&#x5B8C;&#x6574;&#x6709;&#x5E8F;&#x7684;&#x505C;&#x6B62;nginx)</p>
+<p>(2)&#x4F7F;&#x7528;taskkill  taskkill /f /t /im nginx.exe   &#x67E5;&#x627E;&#x8FDB;&#x7A0B; tasklist /fi &quot;imagename eq nginx.exe&quot;</p>
+<h2 id="&#x8D1F;&#x8F7D;&#x5747;&#x8861;">&#x8D1F;&#x8F7D;&#x5747;&#x8861;</h2>
+<pre><code>nginx -s reload
+</code></pre><pre><code>start nginx
+./nginx.exe
+./nginx
+
+#&#x91CD;&#x65B0;&#x542F;&#x52A8;
+./nginx -s reload
+&#x505C;&#x6B62;
+./nginx -s stop
+# &#x6216;&#x8005;
+./nginx -s quit
+#&#x6253;&#x5F00;&#x65E5;&#x5FD7;
+./nginx -s reopen
+#&#x7248;&#x672C;
+nginx -v
+</code></pre><p><a href="https://blog.csdn.net/zjsfdx/article/details/89787462" target="_blank">https://blog.csdn.net/zjsfdx/article/details/89787462</a> nginx &#x65E5;&#x5FD7;&#x8BBF;&#x95EE;</p>
+<p><a href="https://www.jb51.net/article/92832.htm" target="_blank">https://www.jb51.net/article/92832.htm</a></p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                
+                <a href="nginx相关配置说明.html" class="navigation navigation-next navigation-unique" aria-label="Next page: Nginx相关配置说明">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Nginx Windows","level":"1.23.1","depth":2,"next":{"title":"Nginx相关配置说明","level":"1.23.2","depth":2,"path":"docs/nginx/nginx相关配置说明.md","ref":"docs/nginx/nginx相关配置说明.md","articles":[]},"previous":{"title":"Nginx","level":"1.23","depth":1,"ref":"","articles":[{"title":"Nginx Windows","level":"1.23.1","depth":2,"path":"docs/nginx/nginx-windows.md","ref":"docs/nginx/nginx-windows.md","articles":[]},{"title":"Nginx相关配置说明","level":"1.23.2","depth":2,"path":"docs/nginx/nginx相关配置说明.md","ref":"docs/nginx/nginx相关配置说明.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["summary","splitter","-lunr","-search","search-pro","expandable-chapters","theme-comscore","livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"fontState":{"size":"2","family":"sans","theme":"night"},"pluginsConfig":{"livereload":{},"summary":{},"splitter":{},"search-pro":{"cutWordLib":"nodejieba","defineWord":["搜索"]},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-comscore":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"expandable-chapters":{}},"theme":"default","author":"david wang","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"David的笔记","language":"zh-hans","links":{"sidebar":{"home":"https://wjw595595.github.io"}},"gitbook":"3.2.3","description":"David的笔记,java开发的参考手册","theme-default":{"showLevel":true}},"file":{"path":"docs/nginx/nginx-windows.md","mtime":"2021-04-23T06:05:54.582Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-05-05T19:49:47.938Z"},"basePath":"../..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-splitter/splitter.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search-pro/jquery.mark.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search-pro/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-expandable-chapters/expandable-chapters.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-livereload/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-theme-comscore/test.js"></script>
+        
+    
+
+    </body>
+</html>
+

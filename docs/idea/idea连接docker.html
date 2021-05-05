@@ -1,0 +1,217 @@
+<attachment contenteditable="false" data-atts="%5B%5D" data-aid=".atts-58986eb9-5e28-46f1-a21b-66d0503effd7"></attachment><h2>参考：https://blog.csdn.net/qq_43419627/article/details/107978121</h2><h2>Linux设置</h2><h4>1.开启端口号.</h4><pre class="ql-syntax" spellcheck="false">#开放2375端口
+firewall-cmd --permanent --zone=public --add-port=2375/tcp 
+# 查看端口打开情况
+firewall-cmd --permanent --zone=public --list-ports
+# 重新加载firewall防火墙
+firewall-cmd --reload
+1
+2
+3
+4
+5
+6
+</pre><h4>2.首先进入Docker的配置文件开发2375端口,这个端口是docker默认的端口,请不要改变他.</h4><pre class="ql-syntax" spellcheck="false">vim /usr/lib/systemd/system/docker.service
+1
+</pre><h4>3. 在ExecStart=/usr/bin/dockerd后面加-H tcp://0.0.0.0:2375</h4><pre class="ql-syntax" spellcheck="false">ExecStart=/usr/bin/dockerd -H tcp://0.0.0.0:2375 -H unix://var/run/docker.sock
+1
+</pre><h4>4.重新读取配置文件</h4><pre class="ql-syntax" spellcheck="false">systemctl daemon-reload
+1
+</pre><h4>5.重启docker</h4><pre class="ql-syntax" spellcheck="false">systemctl restart docker
+1
+</pre><h2>IDEA设置</h2><h4>1.启动一个普通的容器实例</h4><p><img src="https://img-blog.csdnimg.cn/20200813140337216.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNDE5NjI3,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p><p><img src="https://img-blog.csdnimg.cn/2020081314024289.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNDE5NjI3,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p><p><img src="https://img-blog.csdnimg.cn/20200813153802117.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNDE5NjI3,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p><p><img src="https://img-blog.csdnimg.cn/20200813140520671.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNDE5NjI3,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p><p><img src="https://img-blog.csdnimg.cn/20200813140650522.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNDE5NjI3,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p><p><img src="https://img-blog.csdnimg.cn/20200813141056318.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNDE5NjI3,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p><h4>2.把java项目打包部署到docker上面</h4><p><img src="https://img-blog.csdnimg.cn/20200813141709799.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNDE5NjI3,size_16,color_FFFFFF,t_70#pic_center" alt="普通springboot+maven项目"></p><p><img src="https://img-blog.csdnimg.cn/20200813141639701.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNDE5NjI3,size_16,color_FFFFFF,t_70#pic_center" alt="随便写个方法"></p><p><img src="https://img-blog.csdnimg.cn/20200813141639603.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNDE5NjI3,size_16,color_FFFFFF,t_70#pic_center" alt="端口号"></p><p>现在开始制作容器</p><ol><li>导入依赖</li></ol><pre class="ql-syntax" spellcheck="false">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"&gt;
+    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+    &lt;parent&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
+        &lt;version&gt;2.2.2.RELEASE&lt;/version&gt;
+        &lt;relativePath/&gt; &lt;!-- lookup parent from repository --&gt;
+    &lt;/parent&gt;
+    &lt;groupId&gt;com.capgemini&lt;/groupId&gt;
+    &lt;artifactId&gt;docker-demo&lt;/artifactId&gt;
+    &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
+    &lt;name&gt;docker-demo&lt;/name&gt;
+    &lt;description&gt;Demo project for Spring Boot&lt;/description&gt;
+
+    &lt;properties&gt;
+        &lt;java.version&gt;1.8&lt;/java.version&gt;
+    &lt;/properties&gt;
+
+    &lt;dependencies&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;
+            &lt;scope&gt;test&lt;/scope&gt;
+            &lt;exclusions&gt;
+                &lt;exclusion&gt;
+                    &lt;groupId&gt;org.junit.vintage&lt;/groupId&gt;
+                    &lt;artifactId&gt;junit-vintage-engine&lt;/artifactId&gt;
+                &lt;/exclusion&gt;
+            &lt;/exclusions&gt;
+        &lt;/dependency&gt;
+    &lt;/dependencies&gt;
+
+    &lt;build&gt;
+        &lt;plugins&gt;
+            &lt;plugin&gt;
+                &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+                &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;
+            &lt;/plugin&gt;
+            &lt;plugin&gt;
+                &lt;groupId&gt;com.spotify&lt;/groupId&gt;
+                &lt;artifactId&gt;docker-maven-plugin&lt;/artifactId&gt;
+                &lt;version&gt;1.0.0&lt;/version&gt;
+                &lt;configuration&gt;
+                    &lt;!-- 指定 Dockerfile 路径--&gt;
+                    &lt;dockerDirectory&gt;src/main/docker&lt;/dockerDirectory&gt;
+                    &lt;resources&gt;
+                        &lt;resource&gt;
+                            &lt;targetPath&gt;/&lt;/targetPath&gt;
+                            &lt;!--jar 包所在的路径  此处配置的 即对应 target 目录--&gt;
+                            &lt;directory&gt;${project.build.directory}&lt;/directory&gt;
+                            &lt;!-- 需要包含的 jar包 ，这里对应的是 Dockerfile中添加的文件名 --&gt;
+                            &lt;include&gt;${project.build.finalName}.jar&lt;/include&gt;
+                        &lt;/resource&gt;
+                    &lt;/resources&gt;
+                &lt;/configuration&gt;
+            &lt;/plugin&gt;
+            &lt;plugin&gt;
+                &lt;artifactId&gt;maven-antrun-plugin&lt;/artifactId&gt;
+                &lt;executions&gt;
+                    &lt;execution&gt;
+                        &lt;phase&gt;package&lt;/phase&gt;
+                        &lt;configuration&gt;
+                            &lt;tasks&gt;
+                                &lt;copy todir="src/main/docker" file="target/${project.artifactId}-${project.version}.${project.packaging}"&gt;&lt;/copy&gt;
+                            &lt;/tasks&gt;
+                        &lt;/configuration&gt;
+                        &lt;goals&gt;
+                            &lt;goal&gt;run&lt;/goal&gt;
+                        &lt;/goals&gt;
+                    &lt;/execution&gt;
+                &lt;/executions&gt;
+            &lt;/plugin&gt;
+        &lt;/plugins&gt;
+    &lt;/build&gt;
+
+&lt;/project&gt;
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+</pre><ol><li>打包</li><li><img src="https://img-blog.csdnimg.cn/20200813143826881.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNDE5NjI3,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></li><li>建立Dockerfile文件(注意这个文件没有后缀)</li></ol><pre class="ql-syntax" spellcheck="false"># 基于java镜像
+FROM java:8
+# linux上面得挂载点为 /tmp
+VOLUME /tmp
+# 添加一个jar为本项目得jar  第一个是打包得jar  第二个是别名
+ADD *.jar app.jar
+# 暴露得端口号 application.yml端口号一样
+EXPOSE 8989
+# 入口点 执行java jvm命令:加快随机数生产过程,运行这个jar包
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre><ol><li>在/src/main下创建Dockerfile文件(结构)</li><li><img src="https://img-blog.csdnimg.cn/20200813144004910.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNDE5NjI3,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></li><li>增加配置</li><li><img src="https://img-blog.csdnimg.cn/20200813144400215.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNDE5NjI3,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></li><li>运行</li><li><img src="https://img-blog.csdnimg.cn/20200813144544695.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNDE5NjI3,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></li></ol><p><br></p>

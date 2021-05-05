@@ -1,0 +1,103 @@
+<attachment contenteditable="false" data-atts="%5B%5D" data-aid=".atts-514103d8-5a8f-4c67-8dff-e2fa5796817f"></attachment><p>程序中为什么使用缓存？</p><p> 先了解一下缓存的概念：原始意义是指访问速度比一般随机存取存储器快的一种RAM，通常它不像系统主存那样使用DRAM技术，而使用昂贵但较快速的SRAM技术。对于我们编程来说，所谓的缓存，就是将程序</p><p>或系统经常要调用的对象（临时数据）存在内存中，一遍其使用时可以快速调用，不必再去创建新的重复的实例。这样做可以减少系统的开销，提高效率。</p><p> 对缓存有了一定的了解以后就知道了使用缓存是为了减少和数据库的交互次数，提高执行效率。那么下一个问题来了。什么样的数据能使用缓存，什么样的数据不能使用？</p><p> 这是我们使用缓存必须要明确的事情，实际上适用于缓存的数据：经常查询并且不经常改变的，并且的数据的正确与否对最终结果影响不大的、不适用于缓存的数据：经常改变的数据，数据的正确与否对最终</p><p>结果影响很大的。</p><p> Mybatis中的一级缓存和二级缓存到底缓存了什么，缓存了以后又有什么效果，缓存的数据什么时候会被清空？</p><p> <strong>一级缓存</strong>：它指的是Mybatis中sqlSession对象的缓存，当我们执行查询以后，查询的结果会同时存入到SqlSession为我们提供的一块区域中，该区域的结构是一个Map，当我们再次查询同样的数据，mybatis会</p><p>先去sqlsession中查询是否有，的话直接拿出来用，当SqlSession对象消失时，mybatis的一级缓存也就消失了，同时一级缓存是SqlSession范围的缓存，当调用SqlSession的修改、添加、删除、commit(),close等</p><p>方法时，就会清空一级缓存。</p><p> <strong>二级缓存</strong>：他值得是Mybatis中SqlSessionFactory对象的缓存，由同一个SqlSessionFactory对象创建的SqlSession共享其缓存，但是其中缓存的是数据而不是对象，所以从二级缓存再次查询出得结果的对象与</p><p>第一次存入的对象是不一样的。</p><p> 通过简单的例子来加深理解一级缓存和二级缓存。</p><h3>一级缓存</h3><p>1.用户类</p><p><span style="color: rgb(61, 129, 238); background-color: rgb(255, 255, 255);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></span></p><pre class="ql-syntax" spellcheck="false">public class User implements Serializable{
+    private Integer id;
+    private String username;
+    private Date birthday;
+    private String sex;
+    private String address;
+    
+    get和set方法省略.....
+}
+</pre><p><span style="color: rgb(61, 129, 238); background-color: rgb(255, 255, 255);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></span></p><p>2.Dao层</p><p><span style="color: rgb(61, 129, 238); background-color: rgb(255, 255, 255);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></span></p><pre class="ql-syntax" spellcheck="false">public interface UserDao {
+    /**
+     * 查询所有的用户
+     *
+     * @return
+     */
+    List&lt;User&gt; findAll();
+    /**
+     * 根据Id查询用户
+     *
+     * @return
+     */
+    User findById(Integer id);
+    /**
+     * 更新用户
+     * @param user
+     */
+    void updateUser(User user);
+}
+</pre><p><span style="color: rgb(61, 129, 238); background-color: rgb(255, 255, 255);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></span></p><p>3.UserDao.xml映射文件</p><p><span style="color: rgb(61, 129, 238); background-color: rgb(255, 255, 255);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></span></p><pre class="ql-syntax" spellcheck="false">&lt;mapper namespace="com.example.dao.UserDao"&gt;
+    &lt;select id="findAll" resultType="com.example.domain.User"&gt;
+        SELECT * FROM USER;
+    &lt;/select&gt;
+    &lt;select id="findById" resultType="com.example.domain.User" parameterType="INT"&gt;
+        SELECT * FROM  USER  WHERE ID = #{ID}
+    &lt;/select&gt;
+    &lt;update id="updateUser" parameterType="com.example.domain.User"&gt;
+        update USER
+        &lt;set&gt;
+            &lt;if test="username != null"&gt;username=#{username},&lt;/if&gt;
+            &lt;if test="password != null"&gt;birthday=#{birthday},&lt;/if&gt;
+            &lt;if test="sex != null"&gt;sex=#{sex},&lt;/if&gt;
+            &lt;if test="address != null"&gt;address=#{address},&lt;/if&gt;
+        &lt;/set&gt;
+        where id=#{id}
+    &lt;/update&gt;
+&lt;/mapper&gt;
+</pre><p><span style="color: rgb(61, 129, 238); background-color: rgb(255, 255, 255);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></span></p><p>在以上三步中这是mybatis的单表操作，下面通过根据用户ID查询用户的操作来观察一级缓存生效与否的区别</p><p>4.测试</p><p> (1)&nbsp;命中一级缓存的情况</p><p> 测试代码：</p><p><span style="color: rgb(61, 129, 238); background-color: rgb(255, 255, 255);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></span></p><pre class="ql-syntax" spellcheck="false">@Test
+    public void findByIdTest(){
+        session = factory.openSession();
+        userDao = session.getMapper(UserDao.class);
+        //第一次获取该用户
+        User user1 = userDao.findById(45);
+        System.out.println(user1);
+        第二次获取该用户
+        User user2 = userDao.findById(45);
+        System.out.println(user2);
+        System.out.println(user1 == user2);
+        session.close();
+    }　　
+</pre><p><span style="color: rgb(61, 129, 238); background-color: rgb(255, 255, 255);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></span></p><p>测试结果：</p><p><img src="https://img2018.cnblogs.com/blog/1765949/201908/1765949-20190829003018162-54811913.png"></p><p><br></p><p>（2）对SqlSession进行清除缓存的操作，即清楚一级缓存，然后再次进行测试。</p><p><span style="color: rgb(61, 129, 238); background-color: rgb(255, 255, 255);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></span></p><pre class="ql-syntax" spellcheck="false"> @Test
+    public void findByIdTest(){
+        session = factory.openSession();
+        userDao = session.getMapper(UserDao.class);
+        User user1 = userDao.findById(45);
+        System.out.println(user1);
+ //       session.commit(); 调用SqlSession的commit方法清空缓存
+
+        user1.setUsername("更新用户");
+        user1.setAddress("更新地址");
+        userDao.updateUser(user1);//通过更新SqlSession清空缓存
+        User user2 = userDao.findById(45);
+        System.out.println(user2);
+        System.out.println(user1 == user2);
+        session.close();
+    }
+</pre><p><span style="color: rgb(61, 129, 238); background-color: rgb(255, 255, 255);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></span></p><p>清空缓存的操作很多，可以都试试。测试结果：</p><p><img src="https://img2018.cnblogs.com/blog/1765949/201908/1765949-20190829003359317-49085013.png"></p><h3>二级缓存</h3><p>再看一下Mybatis二级缓存是如何使用的，第一步让Mybatis框架支持二级缓存（在Mybatis的主配置文件中配置），第二步让当前的映射文件支持二级缓存（在Dao.xml映射文件中配置），第三步让当前的方法支持二级缓存（在标签中配置）。根据这个步骤将上面的查询用户的接口通过配置改造为可以支持二级缓存的方法。</p><p> 1.配置Mybatis框架支持二级缓存</p><pre class="ql-syntax" spellcheck="false">&lt;setting name="cacheEnabled" value="true"/&gt;
+</pre><p>2.配置UserDao.xml支持二级缓存</p><pre class="ql-syntax" spellcheck="false"> &lt;cache/&gt;
+</pre><p>3.配置查询的方法支持二级缓存</p><pre class="ql-syntax" spellcheck="false">&lt;select id="findById" resultType="com.example.domain.User" parameterType="INT" useCache="true"&gt;
+        SELECT * FROM  USER  WHERE ID = #{ID}
+   &lt;/select&gt;
+</pre><p>4.测试</p><p><span style="color: rgb(61, 129, 238); background-color: rgb(255, 255, 255);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></span></p><pre class="ql-syntax" spellcheck="false">@Test
+    public void findByIdTest(){
+        //第一次查询 并更新二级缓存
+        SqlSession session1 = factory.openSession();
+        UserDao userDao1 = session1.getMapper(UserDao.class);
+        User user1 = userDao1.findById(45);
+        System.out.println(user1);
+        session1.commit(); //commit()方法提交二级缓存 同时清空一级缓存
+        session1.close();//
+
+//        user1.setUsername("更新用户");
+//        user1.setAddress("更新地址");
+//        userDao.updateUser(user1);//通过更新SqlSession清空缓存
+        //第二次查找命中二级缓存
+        SqlSession session2 = factory.openSession();
+        UserDao userDao2 = session2.getMapper(UserDao.class);
+        User user2 = userDao2.findById(45);
+        session2.commit(); //commit()方法提交二级缓存 同时清空一级缓存
+        session2.close();//
+        System.out.println(user2);
+        System.out.println(user1 == user2);
+    }
+</pre><p><span style="color: rgb(61, 129, 238); background-color: rgb(255, 255, 255);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></span></p><p>测试结果：</p><p><img src="https://img2018.cnblogs.com/blog/1765949/201908/1765949-20190829003759471-980098771.png"></p><p><strong>总结：mybatis的的一级缓存是SqlSession级别的缓存，一级缓存缓存的是对象，当SqlSession提交、关闭以及其他的更新数据库的操作发生后，一级缓存就会清空。二级缓存是SqlSessionFactory级别的缓存，同一个SqlSessionFactory产生的SqlSession都共享一个二级缓存，二级缓存中存储的是数据，当命中二级缓存时，通过存储的数据构造对象返回。查询数据的时候，查询的流程是二级缓存&gt;一级缓存&gt;数据库<em>。</em></strong></p><p><br></p>

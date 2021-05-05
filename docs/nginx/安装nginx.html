@@ -1,0 +1,19 @@
+<pre class="ql-syntax" spellcheck="false">sudo rpm -ivh http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm
+</pre><p><br></p><attachment contenteditable="false" data-atts="%5B%5D" data-aid=".atts-c67269bb-b6c8-4228-9d00-5423116a12db"></attachment><p>查看：</p><pre class="ql-syntax" spellcheck="false">sudo yum repolist
+</pre><p><br></p><h3>步骤 2: 安装</h3><p>yum 安装 Nginx，非常简单，一条命令。</p><pre class="ql-syntax" spellcheck="false">$ sudo yum&nbsp;install&nbsp;nginx
+</pre><h3>步骤 3: 启动配置 Nginx 服务</h3><p>设置开机启动</p><pre class="ql-syntax" spellcheck="false">$ sudo systemctl&nbsp;enable&nbsp;nginx
+</pre><p><br></p><p><br></p><p>启动服务</p><pre class="ql-syntax" spellcheck="false">$ sudo systemctl&nbsp;start&nbsp;nginx
+</pre><p>停止服务</p><pre class="ql-syntax" spellcheck="false">$&nbsp;sudo systemctl restart nginx
+</pre><p>重新加载，因为一般重新配置之后，不希望重启服务，这时可以使用重新加载。</p><pre class="ql-syntax" spellcheck="false">$&nbsp;sudo systemctl reload nginx
+</pre><p>配置</p><pre class="ql-syntax" spellcheck="false">### nginx默认配置位置
+/etc/nginx/conf.d/default.conf
+## 默认wwwroot位置
+/usr/share/nginx/html
+</pre><p><br></p><h3>步骤 4: 打开防火墙端口</h3><p>默认 CentOS7 使用的防火墙 firewalld 是关闭 http 服务的（打开 80 端口）。</p><pre class="ql-syntax" spellcheck="false">$ sudo firewall-cmd --zone=public --permanent --add-service=http
+success
+$ sudo firewall-cmd --reload
+success
+</pre><p>打开之后，可以查看一下防火墙打开的所有的服务</p><pre class="ql-syntax" spellcheck="false">$ sudo sudo firewall-cmd --list-service
+ssh dhcpv6-client http
+</pre><p>可以看到，系统已经打开了 http 服务。</p><h3>步骤 5: 反向代理</h3><p>Nginx 是一个很方便的反向代理，配置反向代理可以参考&nbsp;<a href="http://nginx.org/en/docs/http/ngx_http_proxy_module.html" target="_blank" style="background-color: transparent; color: rgb(0, 150, 94);">Module ngx_http_proxy_module</a>&nbsp;。本文不做累述。</p><p>需要指出的是 CentOS 7 的 SELinux，使用反向代理需要打开网络访问权限。</p><pre class="ql-syntax" spellcheck="false">$&nbsp;sudo setsebool httpd_can_network_connect&nbsp;1
+</pre><p>打开网络权限之后，反向代理可以使用了。</p><p><br></p><p><br></p><p><br></p>

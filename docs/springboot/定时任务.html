@@ -1,0 +1,29 @@
+<attachment contenteditable="false" data-atts="%5B%5D" data-aid=".atts-bf358748-4f3e-4293-992b-bf64973840da"></attachment><p>第一步：开启定时任务</p><pre class="ql-syntax" spellcheck="false">@SpringBootApplication
+@EnableScheduling //开启定时任务
+public class Application {
+ 
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
+}
+</pre><p><br></p><p>编写定时任务</p><pre class="ql-syntax" spellcheck="false">@Component
+public class ScheduledTasks {
+ 
+    private Logger logger = LoggerFactory.getLogger(ScheduledTasks.class);
+ 
+// cron接受cron表达式，根据cron表达式确定定时规则
+   @Scheduled(cron="0/5 * * * * ? ")   //每5秒执行一次 
+    public void testCron() {
+       DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
+        logger.info(sdf.format(new Date())+"*********每5秒执行一次");
+    }
+}
+</pre><p><br></p><p>线程并发：</p><pre class="ql-syntax" spellcheck="false">@Configuration
+public class ScheduleConfig implements SchedulingConfigurer {
+    @Override
+    public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
+        
+        taskRegistrar.setScheduler(Executors.newScheduledThreadPool(5));//几个线程并发
+    }
+}
+</pre><p><br></p><p><br></p><p><br></p><p><br></p><hr><p>配置持久化方法</p><p><br></p><p><br></p>

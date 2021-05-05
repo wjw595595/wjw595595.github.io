@@ -1,0 +1,235 @@
+<attachment contenteditable="false" data-atts="%5B%5D" data-aid=".atts-0f610546-11ee-4904-a818-bdfb93c804af"></attachment><p>在springBoot项目中使用rabbitMQ是很方便的,spring提供了spring-boot-starter-amqp依赖,只需要简单的配置即可与spring无缝整合</p><p>本文不介绍rabbitMQ理论知识,主要介绍在spring中如何使用rabbirMQ</p><p><br></p><h2>依赖与配置</h2><h3>maven</h3><pre class="ql-syntax" spellcheck="false">    &lt;dependencies&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-amqp&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+        ....
+    &lt;/dependencies&gt;
+</pre><h3>配置文件</h3><pre class="ql-syntax" spellcheck="false">spring:
+  rabbitmq:
+    username: zolvces
+    password: zolvces
+    addresses: 192.168.39.128:5672
+    cache:
+      connection:
+#       缓存连接模式,默认一个连接,多个channel
+        mode: channel
+#        多个连接,多个channel
+#        mode: connection
+</pre><h2>几种交换机</h2><h3>Direct 直连交换机</h3><p>申明一个消费者,申明一个queue和Exchange(如果他们不存在),并binding</p><pre class="ql-syntax" spellcheck="false">@Component
+@RabbitListener(bindings = @QueueBinding(
+        value = @Queue("myDirectQueue"),
+        exchange = @Exchange(value = "myDirectExchange", type = ExchangeTypes.DIRECT),
+        key = "mine.direct"
+))
+public class MyDirectListener {
+
+    /**
+     * listenerAdapter
+     *
+     * @param msg 消息内容,当只有一个参数的时候可以不加@Payload注解
+     */
+    @RabbitHandler
+    public void onMessage(@Payload String msg) {
+        System.out.println(msg);
+    }
+}
+</pre><p>生产者</p><pre class="ql-syntax" spellcheck="false">    @Autowired
+    private RabbitTemplate rabbitTemplate;
+
+    private void send() {
+        //(交换机,routingKey,消息内容)
+        rabbitTemplate.convertAndSend("myDirectExchange","mine.direct","this is a message");
+    }
+</pre><h3>Default 默认交换机</h3><p>默认交换机其实就是直连交换机,可以理解为名称为空字符串的直连交换机,一个queue若不指定binding的交换机,就被绑定到默认交换机上,routingKey为queue的名称</p><p>消费者</p><pre class="ql-syntax" spellcheck="false">@Component
+@RabbitListener(queuesToDeclare = @Queue("myDefaultQueue"))
+public class MyDefaultListener {
+
+    @RabbitHandler
+    public void onMessage(String msg) {
+        System.out.println(msg);
+    }
+}
+</pre><p>生产者</p><pre class="ql-syntax" spellcheck="false">    @Autowired
+    private RabbitTemplate rabbitTemplate;
+    
+    private void send() {
+        //(队列,消息内容)
+        rabbitTemplate.convertAndSend("myDefaultQueue","this is a message");
+    }
+</pre><h3>Fanout 扇型交换机</h3><p>申明两个消费者,对应queue-one和queue-two 都与 myFanoutExchange绑定,因为是扇形交换机,所以这里的routingKey是随意的</p><pre class="ql-syntax" spellcheck="false">@Component
+@RabbitListeners({
+    @RabbitListener(
+            bindings = @QueueBinding(
+                    value = @Queue("myFanoutQueue-one"),
+                    exchange = @Exchange(value = "myFanoutExchange", type = ExchangeTypes.FANOUT),
+                    key = "key.one")),
+    
+    @RabbitListener(
+            bindings = @QueueBinding(
+                    value = @Queue("myFanoutQueue-two"),
+                    exchange = @Exchange(value = "myFanoutExchange", type = ExchangeTypes.FANOUT),
+                    key = "key.two")),
+})
+public class MyFanoutListener {
+
+    @RabbitHandler
+    public void onMessage(@Payload String msg, @Headers Map&lt;String, Object&gt; headers) {
+        System.out.println("来自" + headers.get(AmqpHeaders.CONSUMER_QUEUE) + "的消息:" + msg);
+    }
+
+}
+</pre><p>生产者</p><pre class="ql-syntax" spellcheck="false">  @Autowired
+    private RabbitTemplate rabbitTemplate;
+
+    private void send() {
+        //(交换机,routingKey,消息内容),routingKey随意
+        rabbitTemplate.convertAndSend("myFanoutExchange","key.one","this is a message");
+    }
+</pre><h3>Topic 主题交换机</h3><p>申明多个消费者,假设场景,有人在彩票商店中奖了,各个级别的电视台进行新闻报道.</p><p>通配符 # : 一个或多个word, * 一个word</p><pre class="ql-syntax" spellcheck="false">@Component
+public class MyTopicListener {
+
+    @RabbitListener(bindings = @QueueBinding(
+            value = @Queue("province-news-queue"),
+            exchange = @Exchange(value = "news-exchange", type = ExchangeTypes.TOPIC),
+            key = "province.#"))
+    @RabbitHandler
+    public void provinceNews(String msg) {
+        System.out.println("来自省TV的消息:" + msg);
+    }
+
+    @RabbitListener(bindings = @QueueBinding(
+            value = @Queue("city-news-queue"),
+            exchange = @Exchange(value = "news-exchange", type = ExchangeTypes.TOPIC),
+            key = "province.city.#"))
+    @RabbitHandler
+    public void cityNews(String msg) {
+        System.out.println("来自市TV的消息:" + msg);
+    }
+
+    @RabbitListener(bindings = @QueueBinding(
+            value = @Queue("street-news-queue"),
+            exchange = @Exchange(value = "news-exchange", type = ExchangeTypes.TOPIC),
+            key = "province.city.street.*"))
+    @RabbitHandler
+    public void streetNews(String msg) {
+        System.out.println("来自街区TV的消息:" + msg);
+    }
+
+}
+</pre><p>生产者</p><pre class="ql-syntax" spellcheck="false">  @Autowired
+    private RabbitTemplate rabbitTemplate;
+
+    private void send() {
+        //模拟某人在商店买彩票中奖了
+        rabbitTemplate.convertAndSend("news-exchange","province.city.street.shop","有人中了大奖");
+    }
+</pre><p>执行结果</p><pre class="ql-syntax" spellcheck="false">来自省TV的消息:有人中彩票了
+来自市TV的消息:有人中彩票了
+来自街区TV的消息:有人中彩票了
+</pre><h3>Headers 头交换机</h3><p>两个消费者,一个全匹配,一个任意匹配</p><pre class="ql-syntax" spellcheck="false">@Component
+public class MyHeadListener {
+
+    /**
+     * 任意匹配
+     *
+     * @param msg
+     */
+    @RabbitListener(bindings = @QueueBinding(
+            value = @Queue("headQueue-one"),
+            exchange = @Exchange(value = "myHeadExchange", type = ExchangeTypes.HEADERS),
+            arguments = {
+                    @Argument(name = "key-one", value = "1"),
+                    @Argument(name = "key-two", value = "2"),
+                    @Argument(name = "x-match", value = "any")
+            }))
+    public void anyMatchOnMessage(String msg) {
+        System.out.println("来自 headQueue-one " + msg);
+    }
+
+
+    /**
+     * 全匹配
+     *
+     * @param msg
+     */
+    @RabbitListener(bindings = @QueueBinding(
+            value = @Queue("headQueue-two"),
+            exchange = @Exchange(value = "myHeadExchange", type = ExchangeTypes.HEADERS),
+            arguments = {
+                    @Argument(name = "key-one", value = "1"),
+                    @Argument(name = "x-match", value = "all")
+            }))
+    public void allMatchOnMessage(String msg) {
+        System.out.println("来自 headQueue-two " + msg);
+    }
+
+}
+</pre><p>生产者,上面的两个消费者都能收到消息</p><pre class="ql-syntax" spellcheck="false">    @Autowired
+    private RabbitTemplate rabbitTemplate;
+
+    private void send() {
+        rabbitTemplate.convertAndSend("myHeadExchange", "", "this is a message", message -&gt; {
+            MessageProperties properties = message.getMessageProperties();
+            properties.setHeader("key-one", "1");
+            return message;
+        });
+    }
+</pre><h2>关于@RabbitListener</h2><p>先看另一种申明消费者的写法</p><pre class="ql-syntax" spellcheck="false">    static final String topicExchangeName = "spring-boot-exchange";
+
+    static final String queueName = "spring-boot";
+
+    /**申明队列
+     * @return 
+     */
+    @Bean
+    Queue queue() {
+        return new Queue(queueName, false);
+    }
+
+    /**申明交换机
+     * @return 
+     */
+    @Bean
+    TopicExchange exchange() {
+        return new TopicExchange(topicExchangeName);
+    }
+
+    /**将交换机与队列绑定
+     * @param queue 
+     * @param exchange
+     * @return
+     */
+    @Bean
+    Binding binding(Queue queue, TopicExchange exchange) {
+        return BindingBuilder.bind(queue).to(exchange).with("foo.bar.#");
+    }
+
+
+    /** 申明处理消息的适配器,指明用哪个方法处理接收消息,
+     * 这里指明了用Receiver的receiveMessage()方法接收消息
+     * @param receiver 这是自己注入的对象,里面有一个receiveMessage方法
+     * @return
+     */
+    @Bean
+    MessageListenerAdapter listenerAdapter(Receiver receiver) {
+        return new MessageListenerAdapter(receiver, "receiveMessage");
+    }
+
+    /** 申明一个Listener容器,其实就是对应一个消费者(不知道我这样理解对不对)
+     * 需要设置连接消息,指明监听哪个queue,受到消息的处理方法
+     * @param connectionFactory 
+     * @param listenerAdapter
+     * @return
+     */
+    @Bean
+    SimpleMessageListenerContainer container(ConnectionFactory connectionFactory,
+                                             MessageListenerAdapter listenerAdapter) {
+        SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
+        container.setConnectionFactory(connectionFactory);
+        container.setQueueNames(queueName);
+        container.setMessageListener(listenerAdapter);
+        return container;
+    }
+
+</pre><p>上面是springBoot的示例写法，可以看到，要申明队列或是交换机或是绑定它们，只需要构造对应的对象放到spring容器里就行,，而申明一个监听者(消费者)则需要构造一个MessageListenerContainer 对象，ListenerContainer至少需要知道如何连接到代理(ConnectionFactory)，监听哪个队列的消息(QueueNames)以及收到消息的处理方法(MessageListenerAdapter).</p><p>到这里我们可以猜到，一个@RabbitListener就对应一个MessageListenerContainer，ConnectionFactory被自动注入，队列名称可以用queues，queuesToDeclare，或是bindings里面的queue指定，收到消息的处理方法用@RabbitHandler指定,或是直接把@RabbitListener打在对应的方法上就行.</p><p>如何设置交换机,队列的其它属性如Durable,Auto-delete等： 用@Bean的方式，构建对应对象,设置对应属性就行，用注解@Queue或是@Exchange里面都有对应属性,设置就行</p><p>如何设置消费者的其它属性,如消息确认方式,预处理消息数量等： 用@Bean的方式，构建MessageListenerContainer的对象，设置对应属性就行，用注解的话@RabbitListener里指定containerFactory,然后在containerFactory里设置</p><p><br></p><p><br></p><p>作者：zolvces</p><p>链接：https://www.jianshu.com/p/c0cba2546900</p><p>来源：简书</p><p>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p><p><br></p>

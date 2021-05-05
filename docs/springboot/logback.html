@@ -1,0 +1,104 @@
+<attachment contenteditable="false" data-atts="%5B%5D" data-aid=".atts-77e17510-527c-4e43-8b78-e649e9a0486e"></attachment><h1><a href="https://www.cnblogs.com/jianliang-Wu/p/8945343.html" target="_blank" style="color: rgb(106, 99, 82);">SpringBoot中logback.xml使用application.yml中属性</a></h1><p>教你如何使用&nbsp;<code>springProfile</code>&nbsp;与&nbsp;<code>springProperty</code>&nbsp;让你的logback.xml 配置显得更有逼格，当别人还在苦苦挣扎弄logback-{profile}.xml的时候 你一个文件就搞定了…</p><h2>- springProfile</h2><p>该&nbsp;<code>&lt;springProfile&gt;</code>&nbsp;标签允许我们更加灵活配置文件，可选地包含或排除配置部分。元素中的任何位置均支持轮廓部分。使用该name属性指定哪个配置文件接受配置。可以使用逗号分隔列表指定多个配置文件。</p><p><span style="color: rgb(73, 73, 73);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></span></p><pre class="ql-syntax" spellcheck="false">&lt;springProfile name="dev"&gt;
+    &lt;!-- 开发环境时激活 --&gt;
+&lt;/springProfile&gt;
+
+&lt;springProfile name="dev,test"&gt;
+    &lt;!-- 开发，测试的时候激活--&gt;
+&lt;/springProfile&gt;
+
+&lt;springProfile name="!prod"&gt;
+    &lt;!-- 当 "生产" 环境时，该配置不激活--&gt;
+&lt;/springProfile&gt;
+</pre><p><span style="color: rgb(73, 73, 73);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></span></p><h3>- 案例</h3><p><span style="color: rgb(73, 73, 73);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></span></p><pre class="ql-syntax" spellcheck="false">&lt;!-- 开发环境日志级别为DEBUG --&gt;
+&lt;springProfile name="dev"&gt;
+    &lt;root level="DEBUG"&gt;
+        &lt;appender-ref ref="FILE"/&gt;
+        &lt;appender-ref ref="STDOUT"/&gt;
+    &lt;/root&gt;
+&lt;/springProfile&gt;
+
+&lt;!-- 测试环境日志级别为INFO --&gt;
+&lt;springProfile name="test"&gt;
+    &lt;root level="INFO"&gt;
+        &lt;appender-ref ref="FILE"/&gt;
+        &lt;appender-ref ref="STDOUT"/&gt;
+    &lt;/root&gt;
+&lt;/springProfile&gt;
+</pre><p><span style="color: rgb(73, 73, 73);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></span></p><h2>- springProperty</h2><p>1.该&nbsp;<code>&lt;springProperty&gt;</code>&nbsp;标签允许我们从Spring中显示属性，Environment 以便在Logback中使用。如果你想将 application.properties在回读配置中访问文件中的值，这将非常有用</p><p>2.标签的工作方式与Logback的标准&nbsp;<code>&lt;property&gt;</code>&nbsp;标签类似，但不是直接value 指定source属性（从Environment）指定。scope 如果需要将属性存储在local范围之外的其他位置，则可以使用该属性。如果您需要一个后备值，以防该属性未设置，则Environment可以使用该defaultValue属性。</p><pre class="ql-syntax" spellcheck="false">&lt;springProperty scope="context" name="fluentHost" source="myapp.fluentd.host" defaultValue="localhost"/&gt;
+&lt;appender name="FLUENT" class="ch.qos.logback.more.appenders.DataFluentAppender"&gt;
+    &lt;remoteHost&gt;${fluentHost}&lt;/remoteHost&gt;
+    
+&lt;/appender&gt;
+</pre><h3>- 案例</h3><p><span style="color: rgb(73, 73, 73);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></span></p><pre class="ql-syntax" spellcheck="false">&lt;!-- 读取spring.application.name中的属性来生成日志文件名 --&gt;
+&lt;springProperty scope="context" name="logName" source="spring.application.name" defaultValue="localhost.log"/&gt;
+
+&lt;appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender"&gt;
+    &lt;file&gt;logs/${logName}.log&lt;/file&gt;    &lt;!-- 使用方法 --&gt;
+    &lt;append&gt;true&lt;/append&gt;
+    &lt;rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy"&gt;
+        &lt;fileNamePattern&gt;logs/${logName}-%d{yyyy-MM-dd}.%i.log.zip&lt;/fileNamePattern&gt;
+        &lt;maxFileSize&gt;100MB&lt;/maxFileSize&gt;
+        &lt;maxHistory&gt;7&lt;/maxHistory&gt;
+        &lt;totalSizeCap&gt;3GB&lt;/totalSizeCap&gt;
+    &lt;/rollingPolicy&gt;
+    &lt;encoder&gt;
+        &lt;pattern&gt;[%date{yyyy-MM-dd HH:mm:ss}] [%-5level] [%logger:%line] &amp;#45;&amp;#45;%mdc{client} %msg%n&lt;/pattern&gt;
+    &lt;/encoder&gt;
+    &lt;filter class="ch.qos.logback.classic.filter.LevelFilter"&gt;
+        &lt;level&gt;DEBUG&lt;/level&gt;
+    &lt;/filter&gt;
+&lt;/appender&gt;
+</pre><p><span style="color: rgb(73, 73, 73);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></span></p><p>将RelaxedPropertyResolver用于访问环境属性。如果使用虚线符号指定source（my-property-name）所有的变化都会被尝试（myPropertyName，MY_PROPERTY_NAME等）。</p><h2>- logback-spring.xml</h2><p><span style="color: rgb(73, 73, 73);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></span></p><pre class="ql-syntax" spellcheck="false">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;configuration scan="true"&gt;
+
+    &lt;springProperty scope="context" name="logName" source="spring.application.name" defaultValue="localhost.log"/&gt;
+    &lt;appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender"&gt;
+        &lt;file&gt;logs/${logName}.log&lt;/file&gt;
+        &lt;append&gt;true&lt;/append&gt;
+        &lt;rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy"&gt;
+            &lt;fileNamePattern&gt;logs/${logName}-%d{yyyy-MM-dd}.%i.log.zip&lt;/fileNamePattern&gt;
+            &lt;maxFileSize&gt;100MB&lt;/maxFileSize&gt;
+            &lt;maxHistory&gt;7&lt;/maxHistory&gt;
+            &lt;totalSizeCap&gt;3GB&lt;/totalSizeCap&gt;
+        &lt;/rollingPolicy&gt;
+        &lt;encoder&gt;
+            &lt;pattern&gt;[%date{yyyy-MM-dd HH:mm:ss}] [%-5level] [%logger:%line] &amp;#45;&amp;#45;%mdc{client} %msg%n&lt;/pattern&gt;
+        &lt;/encoder&gt;
+        &lt;filter class="ch.qos.logback.classic.filter.LevelFilter"&gt;
+            &lt;level&gt;DEBUG&lt;/level&gt;
+        &lt;/filter&gt;
+    &lt;/appender&gt;
+    &lt;!-- Console output --&gt;
+    &lt;appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender"&gt;
+        &lt;encoder&gt;
+            &lt;pattern&gt;
+                [ %-5level] [%date{yyyy-MM-dd HH:mm:ss}] %logger{96} [%line] - %msg%n
+            &lt;/pattern&gt;
+            &lt;charset&gt;UTF-8&lt;/charset&gt; &lt;!-- 此处设置字符集 --&gt;
+        &lt;/encoder&gt;
+        &lt;filter class="ch.qos.logback.classic.filter.ThresholdFilter"&gt;
+            &lt;level&gt;DEBUG&lt;/level&gt;
+        &lt;/filter&gt;
+    &lt;/appender&gt;
+
+    &lt;springProfile name="dev,test"&gt;
+        &lt;root level="DEBUG"&gt;
+            &lt;appender-ref ref="FILE"/&gt;
+            &lt;appender-ref ref="STDOUT"/&gt;
+        &lt;/root&gt;
+    &lt;/springProfile&gt;
+
+    &lt;springProfile name="prod"&gt;
+        &lt;root level="INFO"&gt;
+            &lt;appender-ref ref="FILE"/&gt;
+            &lt;appender-ref ref="STDOUT"/&gt;
+        &lt;/root&gt;
+    &lt;/springProfile&gt;
+
+    &lt;logger name="org.springframework" level="INFO"/&gt;
+    &lt;logger name="com.netflix" level="WARN"/&gt;
+    &lt;logger name="org" level="INFO"/&gt;
+    &lt;logger name="springfox.documentation" level="INFO"/&gt;
+
+&lt;/configuration&gt;
+</pre><p><br></p>
